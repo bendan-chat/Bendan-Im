@@ -24,6 +24,11 @@ public interface BendanResHeaderConstant {
     /**
      * 网关请求头Value gateway
      * */
+    String feignValue = "feignBendan";
+
+    /**
+     * 网关请求头Value gateway
+     * */
     String bendanValueEncode = "YmVuZGFu";
 
 

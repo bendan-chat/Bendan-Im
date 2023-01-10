@@ -1,8 +1,8 @@
 package com.obeast.chat.run;
 
 
-import com.obeast.chat.service.ChatRecordService;
-import com.obeast.chat.domain.ChatChannelGroup;
+import com.obeast.chat.business.service.ChatRecordService;
+import com.obeast.chat.business.domain.ChatChannelGroup;
 import com.obeast.chat.handler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -15,7 +15,6 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

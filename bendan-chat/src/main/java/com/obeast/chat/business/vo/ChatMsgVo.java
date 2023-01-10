@@ -1,4 +1,4 @@
-package com.obeast.chat.vo;
+package com.obeast.chat.business.vo;
 
 import lombok.Data;
 

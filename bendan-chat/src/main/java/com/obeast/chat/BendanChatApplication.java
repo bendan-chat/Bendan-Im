@@ -17,12 +17,12 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @version 1.0
  * Description:
  */
-@EnableFeignClients(basePackageClasses = OAuth2TokenEndpoint.class)
+@EnableFeignClients(basePackageClasses = OAuth2TokenEndpoint.class, basePackages = "com.obeast.chat.business.service.feign")
 @EnableBendanSwagger
 @EnableDiscoveryClient
 @MapperScans({
         @MapperScan("com.obeast.security.business.dao"),
-        @MapperScan("com.obeast.chat.dao")
+        @MapperScan("com.obeast.chat.business.dao")
 })
 @EnableBendanResourceServer
 @SpringBootApplication

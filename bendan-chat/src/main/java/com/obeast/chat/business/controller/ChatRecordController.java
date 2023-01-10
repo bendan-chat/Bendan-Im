@@ -1,7 +1,7 @@
-package com.obeast.chat.controller;
+package com.obeast.chat.business.controller;
 
 import com.obeast.business.entity.ChatRecordEntity;
-import com.obeast.chat.service.ChatRecordService;
+import com.obeast.chat.business.service.ChatRecordService;
 import com.obeast.core.base.CommonResult;
 import com.obeast.core.domain.PageObjects;
 import com.obeast.core.domain.PageParams;

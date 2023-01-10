@@ -41,6 +41,12 @@
             <artifactId>bendan-common-oss</artifactId>
         </dependency>
 
+        <!--    common 项目 mail       -->
+        <dependency>
+            <groupId>com.obeast</groupId>
+            <artifactId>bendan-common-mail</artifactId>
+        </dependency>
+
         <!-- 远程调用       -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

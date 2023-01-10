@@ -62,15 +62,16 @@ public class OssController {
     @Operation(summary = "腾讯上传文件")
     @PostMapping(value = "/uploadTencentFile")
     public String uploadTencentFile(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId, @RequestParam("type") int type) throws IOException, ExecutionException, InterruptedException {
-        String fileName;
-        if (type == FileType.Audio.getCode()) {
-            fileName = UUID.randomUUID() + FileUploadConstant.POINT + BaiduSttConstant.FileAsrSuffix.WAV.getName();
-        }else {
-            fileName = file.getOriginalFilename() != null ? file.getOriginalFilename() : file.getName();
-        }
-        String uploadUrl = tencentOssTemplate.upload(file, userId, fileName);
-        ossEntityDao.insertAsync(uploadUrl, userId, tencentOssTemplate.getObjectUrlKey(userId, fileName));
-        return uploadUrl;
+//        String fileName;
+//        if (type == FileType.Audio.getCode()) {
+//            fileName = UUID.randomUUID() + FileUploadConstant.POINT + BaiduSttConstant.FileAsrSuffix.WAV.getName();
+//        }else {
+//            fileName = file.getOriginalFilename() != null ? file.getOriginalFilename() : file.getName();
+//        }
+//        String uploadUrl = tencentOssTemplate.upload(file, userId, fileName);
+//        ossEntityDao.insertAsync(uploadUrl, userId, tencentOssTemplate.getObjectUrlKey(userId, fileName));
+//        return uploadUrl;
+        return null;
     }
 
     /**

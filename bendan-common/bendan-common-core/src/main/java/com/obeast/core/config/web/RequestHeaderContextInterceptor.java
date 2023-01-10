@@ -37,6 +37,7 @@ public class RequestHeaderContextInterceptor implements HandlerInterceptor {
                 }
             }
         } catch (Exception e) {
+            log.error("全局拦截器异常-》》",e);
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
             response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache");

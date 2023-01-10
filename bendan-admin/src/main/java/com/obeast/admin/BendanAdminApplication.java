@@ -1,6 +1,7 @@
 package com.obeast.admin;
 
 
+import com.obeast.common.mail.EnableMail;
 import com.obeast.common.oss.annotation.EnableMinioOss;
 import com.obeast.common.oss.annotation.EnableTencentOss;
 import com.obeast.common.stt.annotation.EnableBaiduStt;
@@ -34,6 +35,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableTencentOss
 //开启 baidu stt
 @EnableBaiduStt
+//开启 邮箱
+@EnableMail
 @MapperScans({
         @MapperScan("com.obeast.security.business.dao"),
         @MapperScan("com.obeast.admin.business.dao")

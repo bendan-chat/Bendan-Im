@@ -1,12 +1,11 @@
 package com.obeast.chat.handler;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.obeast.chat.domain.ChatChannelGroup;
-import com.obeast.chat.domain.ChatStrMsg;
+import com.obeast.chat.business.domain.ChatChannelGroup;
+import com.obeast.chat.business.domain.ChatStrMsg;
 import com.obeast.business.entity.ChatRecordEntity;
-import com.obeast.chat.service.ChatRecordService;
+import com.obeast.chat.business.service.ChatRecordService;
 import com.obeast.core.exception.BendanException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,7 +13,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 /**

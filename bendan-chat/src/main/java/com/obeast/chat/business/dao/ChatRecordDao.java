@@ -1,4 +1,4 @@
-package com.obeast.chat.dao;
+package com.obeast.chat.business.dao;
 
 import com.obeast.business.entity.ChatRecordEntity;
 import com.obeast.core.base.BaseDao;

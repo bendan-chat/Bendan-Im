@@ -1,12 +1,12 @@
-package com.obeast.chat.service.impl;
+package com.obeast.chat.business.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.obeast.business.entity.ChatRecordEntity;
-import com.obeast.chat.dao.ChatRecordDao;
-import com.obeast.chat.service.ChatRecordService;
+import com.obeast.chat.business.service.ChatRecordService;
+import com.obeast.chat.business.dao.ChatRecordDao;
 import com.obeast.core.domain.PageObjects;
 import com.obeast.core.domain.PageParams;
 import com.obeast.core.utils.PageQueryUtils;

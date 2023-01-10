@@ -1,7 +1,7 @@
 package com.obeast.chat.handler;
 
-import com.obeast.chat.domain.ChatChannelGroup;
-import com.obeast.chat.domain.ConnectMsg;
+import com.obeast.chat.business.domain.ChatChannelGroup;
+import com.obeast.chat.business.domain.ConnectMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class ConnectMsgHandler extends SimpleChannelInboundHandler<ConnectMsg> {
             log.debug("-------------->用户通道不存在请检查");
             throw new Exception("用户通道不存在请检查");
         }
-        log.info("用户{}建立新的连接------>{}" , msg.getFromId(), ctx.channel());
+        log.debug("用户{}建立新的连接------>{}" , msg.getFromId(), ctx.channel());
         //记录当前连接的用户id以及线程对象
         chatChannelGroup.addChannel(msg.getFromId(), ctx.channel());
         log.debug("-------------->用户{}保存到线程组了" , msg.getFromId());

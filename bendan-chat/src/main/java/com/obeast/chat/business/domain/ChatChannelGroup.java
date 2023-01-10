@@ -1,4 +1,4 @@
-package com.obeast.chat.domain;
+package com.obeast.chat.business.domain;
 
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;

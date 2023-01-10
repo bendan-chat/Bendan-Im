@@ -1,4 +1,4 @@
-package com.obeast.chat.domain;
+package com.obeast.chat.business.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

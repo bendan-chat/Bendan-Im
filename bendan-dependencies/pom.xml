@@ -83,6 +83,15 @@
                 <version>${bendan.version}</version>
             </dependency>
 
+
+            <!--    common 项目 mail       -->
+            <dependency>
+                <groupId>com.obeast</groupId>
+                <artifactId>bendan-common-mail</artifactId>
+                <version>${bendan.version}</version>
+            </dependency>
+
+
             <!--      jwt 解析包      -->
             <dependency>
                 <groupId>com.nimbusds</groupId>

@@ -1,5 +1,6 @@
 package com.obeast.security.resource;
 
+import com.obeast.core.constant.CacheConstant;
 import com.obeast.core.constant.SysConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -144,7 +145,7 @@ public class BendanOAuth2AuthorizationServiceImpl implements OAuth2Authorization
      * Date: 2022/10/31 17:02
      */
     private String createRedisKey(String type, String value) {
-        return String.format("%s::%s::%s", SysConstant.TOKEN, type, value);
+        return String.format("%s::%s::%s", CacheConstant.TOKEN, type, value);
     }
 
     /**

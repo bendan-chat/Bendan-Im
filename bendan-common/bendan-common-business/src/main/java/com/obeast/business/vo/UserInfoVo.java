@@ -1,6 +1,9 @@
-package com.obeast.business.entity;
+package com.obeast.business.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.obeast.core.validation.group.AddGroup;
 import com.obeast.core.validation.group.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,29 +12,19 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-
 /**
  * @author wxl
- * Date 2022/11/30 9:20
+ * Date 2023/1/8 13:53
  * @version 1.0
- * Description: bendan_sys_user
+ * Description:
  */
-@TableName(value ="bendan_sys_user")
 @Data
-public class SysUserEntity implements Serializable {
+public class UserInfoVo implements Serializable {
 
-
-
-
-    @Serial
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 
     /**
      * 用户ID
@@ -48,13 +41,6 @@ public class SysUserEntity implements Serializable {
     @Schema(description = "用户名")
     private String username;
 
-    /**
-     * 密码
-     */
-    @Length(min = 5, max = 10, message = "密码长度必须在5~10之间", groups = {AddGroup.class})
-    @NotBlank(message = "密码不能为空", groups = {AddGroup.class})
-    @Schema(description = "密码")
-    private String password;
 
     /**
      * 昵称

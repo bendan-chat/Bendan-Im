@@ -146,9 +146,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
             return CommonResult.success();
         } else {
             oAuth2AuthorizationService.remove(oAuth2Authorization);
+            return CommonResult.success();
         }
-        return CommonResult.error();
-
     }
 
     @Override

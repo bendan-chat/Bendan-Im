@@ -1,7 +1,7 @@
 package com.obeast.chat.handler;
 
-import com.obeast.chat.domain.CodeStrategyContext;
-import com.obeast.chat.domain.HeardMsg;
+import com.obeast.chat.business.domain.CodeStrategyContext;
+import com.obeast.chat.business.domain.HeardMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

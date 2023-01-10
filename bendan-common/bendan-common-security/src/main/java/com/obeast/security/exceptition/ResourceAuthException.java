@@ -6,6 +6,7 @@ import com.obeast.core.base.CommonResult;
 import com.obeast.core.constant.WebResultEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
@@ -23,6 +24,7 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0
  * Description: 客户端异常处理 AuthenticationException 不同细化异常处理
  */
+@Slf4j
 @RequiredArgsConstructor
 public class ResourceAuthException implements AuthenticationEntryPoint {
 
@@ -43,14 +45,17 @@ public class ResourceAuthException implements AuthenticationEntryPoint {
 		CommonResult<String> result;
 		switch (authException){
 			case InvalidBearerTokenException ignored -> {
+				log.error("资源服务器异常InvalidBearerTokenException:", authException);
 				response.setStatus(WebResultEnum.UN_AUTHORIZED.getCode());
 				result =  CommonResult.unauthorized();
 			}
 			case InsufficientAuthenticationException ignored -> {
+				log.error("资源服务器异常InsufficientAuthenticationException:", authException);
 				response.setStatus(WebResultEnum.REQ_REJECT.getCode());
 				result =  CommonResult.error(WebResultEnum.REQ_REJECT, WebResultEnum.REQ_REJECT.getMessage());
 			}
 			default -> {
+				log.error("资源服务器异常default:", authException);
 				response.setStatus(WebResultEnum.INTERNAL_RESOURCE_SERVER_ERROR.getCode());
 				result =  CommonResult.error(WebResultEnum.INTERNAL_RESOURCE_SERVER_ERROR, WebResultEnum.INTERNAL_RESOURCE_SERVER_ERROR.getMessage());
 			}

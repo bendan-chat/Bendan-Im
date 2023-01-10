@@ -32,4 +32,15 @@ public class ChatController {
     public List<ChatUserVo> getFriends(@RequestParam("username") String username) {
         return sysUserService.getFriendInfos(username);
     }
+
+    @Operation(summary = "新增好友")
+    @PostMapping("/addFriend")
+    public void addFriends() {
+    }
+
+
+    @Operation(summary = "删除好友")
+    @PostMapping("/delFriend")
+    public void delFriends() {
+    }
 }

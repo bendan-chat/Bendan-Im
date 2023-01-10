@@ -105,6 +105,7 @@ public class AdminGlobalExceptionHandler {
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     public CommonResult<Object> accessDeniedException(Exception e) {
+        log.debug("accessDeniedException--> ", e);
         return CommonResult.error(WebResultEnum.REQ_REJECT);
     }
 

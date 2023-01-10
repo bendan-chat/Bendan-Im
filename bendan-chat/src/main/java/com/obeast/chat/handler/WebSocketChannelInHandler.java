@@ -2,7 +2,7 @@ package com.obeast.chat.handler;
 
 
 import cn.hutool.json.JSONUtil;
-import com.obeast.chat.domain.*;
+import com.obeast.chat.business.domain.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

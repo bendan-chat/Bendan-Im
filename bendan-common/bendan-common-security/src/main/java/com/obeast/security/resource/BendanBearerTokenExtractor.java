@@ -1,5 +1,7 @@
 package com.obeast.security.resource;
 
+import com.obeast.core.constant.BendanResHeaderConstant;
+import com.obeast.core.constant.CacheConstant;
 import com.obeast.core.constant.OAuth2Constant;
 import com.obeast.core.constant.SysConstant;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,13 @@ public class BendanBearerTokenExtractor implements BearerTokenResolver {
         if (match) {
             return null;
         }
+//      放行服务之间调用
+//        String form = request.getHeader(BendanResHeaderConstant.from);
+//        if (form != null && form.equals(BendanResHeaderConstant.bendanValue)) {
+//            log.debug("放行服务之间调用");
+//            return null;
+//        }
+
         return resolveFromAuthorizationHeader(request);
     }
 
@@ -63,9 +72,10 @@ public class BendanBearerTokenExtractor implements BearerTokenResolver {
         Matcher matcher = authorizationPattern.matcher(authorization);
         if (!matcher.matches()) {
             BearerTokenError error = BearerTokenErrors.invalidToken("Bearer token is malformed");
+            log.error("token格式出现问题{}，{}",error, authorization);
             throw new OAuth2AuthenticationException(error);
         }
-        return matcher.group(SysConstant.TOKEN);
+        return matcher.group(CacheConstant.TOKEN);
     }
 
 

@@ -42,11 +42,6 @@ public interface SysConstant {
     /**
      * token 名
      * */
-    String TOKEN = "token";
-
-    /**
-     * token 名
-     * */
     String REFRESH_TOKEN = "refresh_token";
 
 

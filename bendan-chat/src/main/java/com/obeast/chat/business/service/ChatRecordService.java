@@ -1,4 +1,4 @@
-package com.obeast.chat.service;
+package com.obeast.chat.business.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.obeast.business.entity.ChatRecordEntity;

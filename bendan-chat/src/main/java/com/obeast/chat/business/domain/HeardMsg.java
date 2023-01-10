@@ -1,18 +1,18 @@
-package com.obeast.chat.domain;
-
+package com.obeast.chat.business.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 /**
  * @author wxl
- * Date 2022/12/27 22:26
+ * Date 2022/12/27 12:42
  * @version 1.0
- * Description: 新连接消息
+ * Description: 心跳消息
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ConnectMsg extends BaseMsg {
+public class HeardMsg extends BaseMsg{
+
 
 }
+

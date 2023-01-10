@@ -18,4 +18,15 @@ public interface CacheConstant {
      * 二级缓存名字
      * */
     String USER_INFO = "USER_INFO";
+
+    /**
+     * token 名
+     * */
+    String TOKEN = "token";
+
+
+    /**
+     * 邮箱验证码
+     * */
+    String MAIL_VERIFICATION_CODE = "MAIL_VERIFICATION_CODE";
 }

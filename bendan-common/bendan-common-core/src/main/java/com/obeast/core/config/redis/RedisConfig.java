@@ -48,7 +48,7 @@ public class RedisConfig {
 
 
     /**
-     * Description: 配置redisTemplate序列化和反序列化支持java8时间
+     * Description: 配置redisTemplate序列化和反序列化支持 支持java8时间
      * @author wxl
      * Date: 2022/11/1 10:27
      * @param factory RedisConnectionFactory

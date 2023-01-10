@@ -2,7 +2,7 @@ package com.obeast.chat.listener;
 
 import cn.hutool.json.JSONUtil;
 
-import com.obeast.chat.domain.ChatChannelGroup;
+import com.obeast.chat.business.domain.ChatChannelGroup;
 import com.obeast.business.entity.ChatRecordEntity;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.RequiredArgsConstructor;

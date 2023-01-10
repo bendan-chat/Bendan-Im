@@ -2,6 +2,7 @@ package com.obeast.admin.business.controller;
 
 
 import cn.hutool.json.JSONObject;
+import com.obeast.business.vo.UserInfoVo;
 import com.obeast.core.domain.PageParams;
 import com.obeast.security.business.service.SysUserService;
 import com.obeast.business.dto.SysUserDTO;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -52,14 +54,20 @@ public class SysUserController {
         return sysUserService.logout(request);
     }
 
+
+    @Operation(summary = "邮箱验证")
+    @GetMapping("/emailCheck")
+    public void emailCheck(@RequestParam("email") String email) {
+    }
+
     @Operation(summary = "根据用户名查询用户详情")
     @GetMapping("/getUserinfo")
-    public CommonResult<UserInfo> getUserinfo(@RequestParam("username") String username) throws LoginException {
-        UserInfo userInfo = sysUserService.findUserInfo(username);
-        if (userInfo == null) {
-            CommonResult.error("获取失败");
-        }
-        return CommonResult.success(userInfo);
+    public CommonResult<UserInfoVo> getUserinfo(@RequestParam("username") String username) {
+//        UserInfo userInfo = sysUserService.findUserInfo(username);
+        SysUserEntity sysUser = sysUserService.findByUsername(username);
+        UserInfoVo userInfoVo = new UserInfoVo();
+        BeanUtils.copyProperties(sysUser,userInfoVo);
+        return CommonResult.success(userInfoVo);
     }
 
     /**
@@ -76,7 +84,7 @@ public class SysUserController {
      * 查询所有
      */
     @Operation(summary = "查询所有")
-    @PreAuthorize("@pvs.hasPurview('sys_user_query')")
+//    @PreAuthorize("@pvs.hasPurview('sys_user_query')")
     @GetMapping("/listAll")
     public List<SysUserEntity> listAll() {
         return sysUserService.queryAll();

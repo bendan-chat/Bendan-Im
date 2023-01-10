@@ -1,15 +1,20 @@
 
 spring:
+  # 邮箱配置
   mail:
     default-encoding: UTF-8
     host: smtp.qq.com
     port: 587
     username: 1468258057@qq.com
-    password: 1111111111
+    password: ebwrbagnvpgbhadi
 
+  # 上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
 
-
+# 项目配置
 project:
   name: Bendan
-  author: obeast
-
+  author: obeast-dragon
