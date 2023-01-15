@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @author Joe Grandja
  * @since 0.1.0
  */
+// TODO: 2023/1/14 关闭debug
 @EnableWebSecurity(debug = true)
 public class WebSecurityConfig {
 

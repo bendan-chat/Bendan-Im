@@ -1,6 +1,5 @@
 package com.obeast.core.domain;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import lombok.Data;
  * @author wxl
  * Date 2022/12/21 14:59
  * @version 1.0
- * Description:
+ * Description: 分页对象
  */
 @Data
 public class PageParams {

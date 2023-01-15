@@ -36,8 +36,8 @@ public class ChatStrMsg extends BaseMsg {
     private Integer sendType;
 
     /**
-     * 消息类型
+     * 长度
      * */
-    private Long sendTimeLength;
+    private Long length;
 
 }

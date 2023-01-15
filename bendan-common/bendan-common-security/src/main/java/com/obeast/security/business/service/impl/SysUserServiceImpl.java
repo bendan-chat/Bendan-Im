@@ -77,30 +77,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
 
 
     @Override
-    public List<ChatUserVo> getFriendInfos(String username) {
-        Long userId = this.getIdByUsername(username);
-        List<Long> friendsTemp = new ArrayList<>();
-        List<FriendRelsVo> friendRelsVos = sysUserDao.getFriends(userId);
-        for (FriendRelsVo friendRelsVo : friendRelsVos) {
-            Long userB = friendRelsVo.getUserB();
-            Long userA = friendRelsVo.getUserA();
-            if (ObjectUtil.isNotNull(userA)) {
-                friendsTemp.add(userA);
-            }
-            if (ObjectUtil.isNotNull(userA)) {
-                friendsTemp.add(userB);
-            }
-        }
-        List<ChatUserVo> list = friendsTemp.stream().filter(item -> !item.equals(userId)).map(item -> {
-            ChatUserVo chatUserVo = new ChatUserVo();
-            SysUserEntity sysUser = this.getById(item);
-            BeanUtils.copyProperties(sysUser, chatUserVo);
-            return chatUserVo;
-        }).toList();
-        return list;
-    }
-
-    @Override
     public CommonResult<?> login(String username, String password, HttpServletRequest request, HttpServletResponse response) throws BendanException {
         Assert.notNull(username, UserConstant.USERNAME_IS_NULL);
         Assert.notNull(password, UserConstant.PASSWORD_IS_NULL);

@@ -45,4 +45,11 @@ public class ChatUserVo {
     @Range(min = -1, max = 1, groups = {AddGroup.class, UpdateGroup.class})
     @Schema(description = "性别   (-1 未知 0 女性  1 男性)")
     private Integer gender;
+
+
+     /**
+      * 最后一条消息
+      */
+     @Schema(description = "最后一条消息")
+     private String lastMsg;
 }

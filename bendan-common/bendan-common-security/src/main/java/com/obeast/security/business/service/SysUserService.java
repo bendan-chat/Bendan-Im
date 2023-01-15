@@ -26,15 +26,6 @@ public interface SysUserService extends IService<SysUserEntity> {
 
 
     /**
-     * Description: 获取好友详情
-     * @author wxl
-     * Date: 2022/12/27 23:48
-     * @param username username
-     * @return java.util.List<com.obeast.business.entity.SysUserEntity>
-     */
-    List<ChatUserVo> getFriendInfos(String username);
-
-    /**
      * Description: 登录
      *
      * @param username username

@@ -3,7 +3,6 @@ package com.obeast.business.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.apache.ibatis.type.BlobTypeHandler;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -57,8 +56,8 @@ public class ChatRecordEntity implements Serializable {
     /**
      * 发送时长
      */
-    @TableField(value = "send_time_length")
-    private Long sendTimeLength;
+    @TableField(value = "length")
+    private Long length;
 
     /**
      * 发送时间

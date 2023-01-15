@@ -50,14 +50,15 @@ public class ChatMsgHandler extends SimpleChannelInboundHandler<ChatStrMsg> {
         chatRecordEntity.setSendContent(sendMsg);
         chatRecordEntity.setSendType(msg.getSendType());
         chatRecordEntity.setSendTime(new Date());
-        Long sendTimeLength = msg.getSendTimeLength();
+        Long sendTimeLength = msg.getLength();
         if (ObjectUtil.isNotNull(sendTimeLength)) {
-            chatRecordEntity.setSendTimeLength(sendTimeLength);
+            chatRecordEntity.setLength(sendTimeLength);
         }
         chatRecordService.save(chatRecordEntity);
         //查询toId是否存在
         Channel channel = chatChannelGroup.getChannel(toUuid);
         log.debug("-------------------------------->消息已经入DB库");
+        // TODO: 2023/1/15  对方在线直接发送；不在线丢到mq做微标
         try {
             if (channel.isOpen()) {
                 //对方在线，才做rabbitMq转发

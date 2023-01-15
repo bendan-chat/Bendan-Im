@@ -1,9 +1,7 @@
 package com.obeast.admin.business.controller;
 
+import com.obeast.admin.business.service.ChatFriendService;
 import com.obeast.business.vo.ChatUserVo;
-import com.obeast.core.domain.PageObjects;
-import com.obeast.core.domain.PageParams;
-import com.obeast.security.business.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,25 +20,32 @@ import java.util.List;
 @RestController
 @RequestMapping("/chat")
 @RequiredArgsConstructor
-public class ChatController {
+public class ChatFriendSController {
 
-    private final SysUserService sysUserService;
-
+    private final ChatFriendService chatFriendService;
 
     @Operation(summary = "查询好友列表")
     @GetMapping("/getFriends")
     public List<ChatUserVo> getFriends(@RequestParam("username") String username) {
-        return sysUserService.getFriendInfos(username);
+        return chatFriendService.getFriendInfos(username);
+    }
+
+    @Operation(summary = "查询聊天列表")
+    @GetMapping("/getChatList")
+    public List<ChatUserVo> getChatList(@RequestParam("username") String username) {
+        return chatFriendService.getChatList(username);
     }
 
     @Operation(summary = "新增好友")
     @PostMapping("/addFriend")
-    public void addFriends() {
+    public Boolean addFriend(@RequestParam("friendId") Long friendId,@RequestParam("userId") Long userId) {
+        return chatFriendService.addFriend(friendId, userId);
     }
 
 
     @Operation(summary = "删除好友")
     @PostMapping("/delFriend")
-    public void delFriends() {
+    public Boolean delFriend(@RequestParam("friendId") Long friendId,@RequestParam("userId") Long userId) {
+        return chatFriendService.delFriend(friendId, userId);
     }
 }

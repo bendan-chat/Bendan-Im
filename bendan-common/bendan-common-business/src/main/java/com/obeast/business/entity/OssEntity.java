@@ -1,9 +1,6 @@
 package com.obeast.business.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +12,7 @@ import lombok.Data;
  * @author obeast-dragon
  * Date 2022-09-21 15:19:09
  * @version 1.0
- * Description: 
+ * Description: bendan_oss
  */
 @Data
 @TableName("bendan_oss")
@@ -49,11 +46,13 @@ public class OssEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@TableField(value = "create_time", fill = FieldFill.INSERT)
 	private Date createTime;
 
 	/**
 	 * 
 	 */
+	@TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 }

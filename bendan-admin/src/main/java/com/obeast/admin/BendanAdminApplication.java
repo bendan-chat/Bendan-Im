@@ -23,7 +23,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @version 1.0
  * Description:
  */
-@EnableFeignClients(basePackageClasses = OAuth2TokenEndpoint.class)
+@EnableFeignClients(basePackageClasses = OAuth2TokenEndpoint.class, basePackages = {"com.obeast.admin.business.service.remote"})
 //开启swagger
 @EnableBendanSwagger
 @EnableDiscoveryClient
@@ -50,5 +50,6 @@ public class BendanAdminApplication {
 //        for (String beanDefinitionName : beanDefinitionNames) {
 //            System.out.println(beanDefinitionName);
 //        }
+
     }
 }

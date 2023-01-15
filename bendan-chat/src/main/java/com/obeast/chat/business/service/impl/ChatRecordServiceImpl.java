@@ -13,6 +13,9 @@ import com.obeast.core.utils.PageQueryUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 
 /**
  * @author wxl
@@ -23,22 +26,38 @@ import org.springframework.util.Assert;
 @Service
 public class ChatRecordServiceImpl extends ServiceImpl<ChatRecordDao, ChatRecordEntity> implements ChatRecordService {
 
+
+
     @Override
     public PageObjects<ChatRecordEntity> queryPage(PageParams pageParams, Long userId, Long toId) {
         Assert.notNull(userId, "userId cannot be null");
         LambdaQueryWrapper<ChatRecordEntity> wrapper = Wrappers.lambdaQuery();
         wrapper
                 .eq(ChatRecordEntity::getFromId, userId)
-                            .and(j -> j.eq(ChatRecordEntity::getToId, toId))
+                .and(j -> j.eq(ChatRecordEntity::getToId, toId))
                 .or(i -> {
-                    i .eq(ChatRecordEntity::getFromId, toId)
+                    i.eq(ChatRecordEntity::getFromId, toId)
                             .and(j -> j.eq(ChatRecordEntity::getToId, userId));
-                })
-        ;
+                });
         IPage<ChatRecordEntity> page = this.page(
                 new PageQueryUtils<ChatRecordEntity>().getPage(pageParams),
                 wrapper
         );
         return new PageQueryUtils<>().getPageObjects(page, ChatRecordEntity.class);
+    }
+
+    @Override
+    public List<Long> chatList(Long userId) {
+        Assert.notNull(userId, "userId cannot be null");
+        LambdaQueryWrapper<ChatRecordEntity> wrapper = Wrappers.lambdaQuery();
+        wrapper
+                .eq(ChatRecordEntity::getFromId, userId)
+                .or(i -> {
+                    i.eq(ChatRecordEntity::getToId, userId);
+                });
+        List<ChatRecordEntity> list = list(wrapper);
+        Stream<Long> fromStream = list.stream().map(ChatRecordEntity::getFromId);
+        Stream<Long> toStream = list.stream().map(ChatRecordEntity::getToId);
+        return Stream.concat(fromStream, toStream).filter(item -> !item.equals(userId)).distinct().toList();
     }
 }

@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * @author wxl
@@ -30,9 +32,18 @@ public class ChatRecordController {
      */
     @Operation(summary = "查询聊天记录")
     @GetMapping("/listRecord")
-    public CommonResult<PageObjects<ChatRecordEntity>> page(PageParams pageParams, Long userId, Long toId) {
+    public CommonResult<PageObjects<ChatRecordEntity>> pageRecord(PageParams pageParams, @RequestParam("userId") Long userId, @RequestParam("toId") Long toId) {
         PageObjects<ChatRecordEntity> page = chatRecordService.queryPage(pageParams, userId, toId);
         return CommonResult.success(page);
     }
 
+
+    /**
+     * 查询聊天好友id集合
+     */
+    @Operation(summary = "查询聊天好友id集合")
+    @GetMapping("/listChat")
+    public List<Long> chatList(@RequestParam("userId") Long userId) {
+        return chatRecordService.chatList(userId);
+    }
 }

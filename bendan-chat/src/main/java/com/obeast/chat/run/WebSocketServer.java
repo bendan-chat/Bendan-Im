@@ -68,7 +68,7 @@ public class WebSocketServer implements CommandLineRunner {
                                 //客户端 (TimeUnit)后不发消息自动断开
                                 .addLast(new ReadTimeoutHandler(10, TimeUnit.MINUTES))
                                 //WebSocket客服端处理器
-                                .addLast(new WebSocketChannelInHandler())
+                                .addLast(new SeriChannelInHandler())
                                 //关闭连接
                                 .addLast(new ShutDownMsgHandler(chatChannelGroup))
                                 // 新建连接处理器

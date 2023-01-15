@@ -1,5 +1,7 @@
 package com.obeast.admin;
 
+import com.obeast.admin.business.dao.ChatFriendSDao;
+import com.obeast.admin.business.service.remote.ChatListService;
 import com.obeast.business.entity.SysMenuEntity;
 import com.obeast.business.entity.SysUserEntity;
 import com.obeast.security.business.dao.SysUserDao;
@@ -27,9 +29,12 @@ import java.util.List;
 public class BendanAdminApplicationTest {
     @Autowired
     SysUserService sysUserDao;
+
+    @Autowired
+    ChatListService chatListService;
     @Test
     void test11 () {
-        System.out.println("------------------------------->"+sysUserDao.getFriendInfos("admin"));
+        System.out.println("------------------------------->"+chatListService.chatList(1L));
     }
 
     private static final String json = """

@@ -51,16 +51,6 @@ public class PageQueryUtils<T> {
         long curPage = 1;
         long limit = 10;
 
-//        测试用
-//        if (params.get(PageConstant.CUR) != null) {
-//            Integer integer = (Integer) params.get(PageConstant.CUR);
-//            curPage = integer.longValue();
-//        }
-//        if (params.get(PageConstant.LIMIT) != null) {
-//            Integer integer = (Integer) params.get(PageConstant.LIMIT);
-//            limit = integer.longValue();
-//        }
-
 //        接口用
         if (pageParams.getCur() != null) {
             curPage = pageParams.getCur();

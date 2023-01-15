@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @author wxl
  * Date 2022/12/27 12:45
  * @version 1.0
- * Description: WebSocket
+ * Description: 拆分WebSocket的帧
  */
 @Slf4j
-public class WebSocketChannelInHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
 
     @Transactional
