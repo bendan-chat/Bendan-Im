@@ -2,8 +2,8 @@ package com.obeast.admin.business.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.obeast.business.entity.OssEntity;
-import com.obeast.common.oss.domain.FlyweightRes;
-import com.obeast.common.oss.domain.MergeShardArgs;
+import com.obeast.common.three.domain.FlyweightRes;
+import com.obeast.common.three.domain.MergeShardArgs;
 import com.obeast.core.base.CommonResult;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,6 +1,6 @@
 package com.obeast.admin.business.service;
 
-import com.obeast.common.oss.domain.FlyweightRes;
+import com.obeast.common.three.domain.FlyweightRes;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**

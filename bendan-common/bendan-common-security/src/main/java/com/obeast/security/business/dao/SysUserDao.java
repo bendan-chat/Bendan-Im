@@ -1,14 +1,9 @@
 package com.obeast.security.business.dao;
 
 
-import com.obeast.business.vo.FriendRelsVo;
 import com.obeast.core.base.BaseDao;
 import com.obeast.business.entity.SysUserEntity;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 /**
  * @author wxl

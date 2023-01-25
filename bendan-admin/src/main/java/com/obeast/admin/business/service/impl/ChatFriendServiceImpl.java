@@ -1,12 +1,12 @@
 package com.obeast.admin.business.service.impl;
 
-import com.obeast.admin.business.dao.ChatFriendSDao;
+import com.obeast.admin.business.dao.FriendRelEntityDao;
 import com.obeast.admin.business.service.ChatFriendService;
 import com.obeast.admin.business.service.remote.ChatListService;
 import com.obeast.business.entity.ChatRecordEntity;
+import com.obeast.business.entity.FriendRelEntity;
 import com.obeast.business.entity.SysUserEntity;
 import com.obeast.business.vo.ChatUserVo;
-import com.obeast.business.vo.FriendRelsVo;
 import com.obeast.core.base.CommonResult;
 import com.obeast.core.domain.PageObjects;
 import com.obeast.core.domain.PageParams;
@@ -30,12 +30,15 @@ public class ChatFriendServiceImpl implements ChatFriendService {
 
     private final SysUserService sysUserService;
 
-    private final ChatFriendSDao chatFriendSDao;
+//    private final ChatFriendSDao chatFriendSDao;
+
+    private final FriendRelEntityDao friendRelEntityDao;
 
     private final ChatListService chatListService;
 
     @Override
     public Boolean addFriend(Long friendId, Long userId) {
+
         return null;
     }
 
@@ -47,9 +50,9 @@ public class ChatFriendServiceImpl implements ChatFriendService {
     @Override
     public List<ChatUserVo> getFriendInfos(String username) {
         Long userId = sysUserService.getIdByUsername(username);
-        List<FriendRelsVo> friendRelsVos = chatFriendSDao.getFriends(userId);
-        Stream<Long> userAs = friendRelsVos.stream().map(FriendRelsVo::getUserA);
-        Stream<Long> userBs = friendRelsVos.stream().map(FriendRelsVo::getUserB);
+        List<FriendRelEntity> friendRelsVos = friendRelEntityDao.getFriends(userId);
+        Stream<Long> userAs = friendRelsVos.stream().map(FriendRelEntity::getUserA);
+        Stream<Long> userBs = friendRelsVos.stream().map(FriendRelEntity::getUserB);
         List<Long> friendIds = Stream.concat(userBs, userAs).toList();
         return getChatUserByChatList(friendIds, userId, Boolean.FALSE);
     }

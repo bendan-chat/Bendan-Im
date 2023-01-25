@@ -2,9 +2,9 @@ package com.obeast.admin;
 
 
 import com.obeast.common.mail.EnableMail;
-import com.obeast.common.oss.annotation.EnableMinioOss;
-import com.obeast.common.oss.annotation.EnableTencentOss;
-import com.obeast.common.stt.annotation.EnableBaiduStt;
+import com.obeast.common.three.annotation.EnableMinioOss;
+import com.obeast.common.three.annotation.EnableTencentOss;
+import com.obeast.common.three.annotation.EnableTencentAsr;
 import com.obeast.security.annotation.EnableBendanResourceServer;
 import com.obeast.security.business.service.remote.OAuth2TokenEndpoint;
 import com.obeast.swagger.annotation.EnableBendanSwagger;
@@ -33,8 +33,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableMinioOss
 //开启tencent oss
 @EnableTencentOss
-//开启 baidu stt
-@EnableBaiduStt
+//开启 tencent  stt
+@EnableTencentAsr
 //开启 邮箱
 @EnableMail
 @MapperScans({

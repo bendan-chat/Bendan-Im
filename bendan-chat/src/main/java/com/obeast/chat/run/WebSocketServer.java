@@ -4,6 +4,7 @@ package com.obeast.chat.run;
 import com.obeast.chat.business.service.ChatRecordService;
 import com.obeast.chat.business.domain.ChatChannelGroup;
 import com.obeast.chat.handler.*;
+import com.obeast.chat.handler.newHandler.ByteMsgHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -63,10 +64,11 @@ public class WebSocketServer implements CommandLineRunner {
                                 .addLast(new HttpServerCodec())
                                 // FullHttpRequestHandler
                                 .addLast(new HttpObjectAggregator(65536))
-                                // webSocket
+                                // webSocket 协议解析
                                 .addLast(new WebSocketServerProtocolHandler("/",null, false, 65536))
                                 //客户端 (TimeUnit)后不发消息自动断开
                                 .addLast(new ReadTimeoutHandler(10, TimeUnit.MINUTES))
+//                                .addLast(new ByteMsgHandler())
                                 //WebSocket客服端处理器
                                 .addLast(new SeriChannelInHandler())
                                 //关闭连接

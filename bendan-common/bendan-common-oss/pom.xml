@@ -59,6 +59,14 @@
             </exclusions>
         </dependency>
 
+        <!--  腾讯 ai      -->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+            <version>3.1.322</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

@@ -17,7 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @version 1.0
  * Description:
  */
-@EnableFeignClients(basePackageClasses = OAuth2TokenEndpoint.class, basePackages = "com.obeast.chat.business.service.feign")
+@EnableFeignClients(basePackageClasses = OAuth2TokenEndpoint.class)
 @EnableBendanSwagger
 @EnableDiscoveryClient
 @MapperScans({

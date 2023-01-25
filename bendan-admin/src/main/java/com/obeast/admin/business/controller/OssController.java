@@ -1,25 +1,22 @@
 package com.obeast.admin.business.controller;
 
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONException;
 import cn.hutool.json.JSONObject;
 import com.obeast.admin.business.dao.OssEntityDao;
 import com.obeast.admin.business.service.OssMinioService;
 import com.obeast.business.entity.OssEntity;
-import com.obeast.common.oss.domain.FlyweightRes;
-import com.obeast.common.oss.enumration.FileType;
-import com.obeast.common.oss.enumration.FileUploadConstant;
-import com.obeast.common.oss.template.TencentOssTemplate;
-import com.obeast.common.oss.utils.FileUploadUtil;
-import com.obeast.common.stt.constant.BaiduSttConstant;
+import com.obeast.common.three.domain.FlyweightRes;
+import com.obeast.common.three.enumration.FileType;
+import com.obeast.common.three.enumration.FileUploadConstant;
+import com.obeast.common.three.template.TencentOssTemplate;
+import com.obeast.common.three.enumration.AsrConstant;
 import com.obeast.core.base.CommonResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,7 +61,7 @@ public class OssController {
     public String uploadTencentFile(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId, @RequestParam("type") int type) throws IOException, ExecutionException, InterruptedException {
         String fileName;
         if (type == FileType.Audio.getCode()) {
-            fileName = UUID.randomUUID() + FileUploadConstant.POINT + BaiduSttConstant.FileAsrSuffix.WAV.getName();
+            fileName = UUID.randomUUID() + FileUploadConstant.POINT + AsrConstant.VoiceSuffix.WAV.getName();
         }else {
             fileName = file.getOriginalFilename() != null ? file.getOriginalFilename() : file.getName();
         }
