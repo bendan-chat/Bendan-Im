@@ -36,4 +36,14 @@ public interface ChatRecordService extends IService<ChatRecordEntity> {
      * Date: 2023/1/13 23:21
      */
     List<Long> chatList(Long userId);
+
+    /**
+     * Description: 删除好友聊天记录
+     * @author wxl
+     * Date: 2023/2/3 9:34
+     * @param curUserId curUserId
+     * @param addUserId addUserId
+     * @return java.lang.Boolean
+     */
+    Boolean delChatRecord(Long curUserId, Long addUserId);
 }

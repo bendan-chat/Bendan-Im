@@ -63,10 +63,10 @@ public class SysUserEntity implements Serializable {
     private String nickName;
 
     /**
-     * 真实姓名
+     * 个人描述
      */
-    @Schema(description = "真实姓名")
-    private String realName;
+    @Schema(description = "个人描述")
+    private String selfDescription;
 
     /**
      * 手机号

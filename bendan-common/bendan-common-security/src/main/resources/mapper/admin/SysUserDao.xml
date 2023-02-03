@@ -9,7 +9,7 @@
         <result property="username" column="username"/>
         <result property="password" column="password"/>
         <result property="nickName" column="nick_name"/>
-        <result property="realName" column="real_name"/>
+        <result property="selfDescription" column="self_description"/>
         <result property="phoneNumber" column="phone_number"/>
         <result property="avatar" column="avatar_url"/>
         <result property="email" column="email"/>

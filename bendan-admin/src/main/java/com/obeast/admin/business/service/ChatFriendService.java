@@ -1,6 +1,7 @@
 package com.obeast.admin.business.service;
 
 import com.obeast.business.vo.ChatUserVo;
+import com.obeast.business.vo.FriendVo;
 
 import java.util.List;
 
@@ -13,33 +14,13 @@ import java.util.List;
 public interface ChatFriendService {
 
     /**
-     * Description: 新增好友
-     * @author wxl
-     * Date: 2023/1/13 9:11
-     * @param friendId friendId
-     * @param userId userId
-     * @return java.lang.Boolean
-     */
-    Boolean addFriend(Long friendId, Long userId);
-
-    /**
-     * Description: 删除好友
-     * @author wxl
-     * Date: 2023/1/13 9:10
-     * @param friendId friendId
-     * @param userId userId
-     * @return java.lang.Boolean
-     */
-    Boolean delFriend(Long friendId, Long userId);
-
-    /**
      * Description: 获取好友详情
      * @author wxl
      * Date: 2022/12/27 23:48
      * @param username username
      * @return java.util.List<com.obeast.business.entity.SysUserEntity>
      */
-    List<ChatUserVo> getFriendInfos(String username);
+    List<ChatUserVo> getFriendList(String username);
 
 
     /**
@@ -60,4 +41,13 @@ public interface ChatFriendService {
      * @return java.util.List<com.obeast.business.vo.ChatUserVo>
      */
     List<ChatUserVo> getChatList(String username);
+
+    /**
+     * Description: 查询好友详情
+     * @author wxl
+     * Date: 2023/2/1 10:05
+     * @param userId userId
+     * @return com.obeast.business.vo.ChatUserVo
+     */
+    FriendVo getFriendInfo(Long userId);
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.obeast.admin.business.dao.AddFriendRelDao">
+
+    <resultMap id="BaseResultMap" type="com.obeast.business.entity.AddFriendRelEntity">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="curUserId" column="cur_user_id" jdbcType="BIGINT"/>
+            <result property="addUserId" column="add_user_id" jdbcType="BIGINT"/>
+            <result property="nickname" column="nickName" jdbcType="VARCHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,cur_user_id,add_user_id,
+        nickName,avatar,description,
+        status,create_time,update_time
+    </sql>
+</mapper>

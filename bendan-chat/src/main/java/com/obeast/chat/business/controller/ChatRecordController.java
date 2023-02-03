@@ -46,4 +46,11 @@ public class ChatRecordController {
     public List<Long> chatList(@RequestParam("userId") Long userId) {
         return chatRecordService.chatList(userId);
     }
+
+
+    @Operation(summary = "删除好友聊天记录")
+    @DeleteMapping("/delChatRecord")
+    public Boolean delChatRecord(@RequestParam("curUserId") Long curUserId, @RequestParam("addUserId") Long addUserId) {
+        return chatRecordService.delChatRecord(curUserId, addUserId);
+    }
 }

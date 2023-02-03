@@ -1,60 +1,59 @@
 package com.obeast.chat.handler;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import com.obeast.chat.business.domain.ChatChannelGroup;
-import com.obeast.chat.business.domain.ChatStrMsg;
 import com.obeast.business.entity.ChatRecordEntity;
+import com.obeast.chat.business.domain.ChatChannelGroup;
+import com.obeast.chat.business.domain.CodeStrategyContext;
+import com.obeast.chat.business.domain.HeardMsg;
+import com.obeast.chat.business.domain.NewFriendMsg;
 import com.obeast.chat.business.service.ChatRecordService;
-import com.obeast.core.exception.BendanException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.Date;
 
+
 /**
  * @author wxl
- * Date 2022/12/27 12:45
+ * Date 2022/12/27 12:41
  * @version 1.0
- * Description: 聊天消息处理器
+ * Description: 心跳消息处理类
  */
+@RequiredArgsConstructor
 @Slf4j
-public class ChatMsgHandler extends SimpleChannelInboundHandler<ChatStrMsg> {
+public class NewFriendMsgHandler extends SimpleChannelInboundHandler<NewFriendMsg> {
+
+    private final ChatRecordService chatRecordService;
 
     private final ChatChannelGroup chatChannelGroup;
 
     private final RabbitTemplate rabbitTemplate;
 
-    private final ChatRecordService chatRecordService;
-
-
-    public ChatMsgHandler(ChatChannelGroup chatChannelGroup, RabbitTemplate rabbitTemplate, ChatRecordService chatRecordService) {
-        this.chatChannelGroup = chatChannelGroup;
-        this.rabbitTemplate = rabbitTemplate;
-        this.chatRecordService = chatRecordService;
-    }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ChatStrMsg msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, NewFriendMsg msg) throws Exception {
+        log.debug("-------------------->收到客户端的新好友:" + msg.getCode());
+        //响应心跳
+        ctx.writeAndFlush(new TextWebSocketFrame(CodeStrategyContext.NEW_FRIEND.toString()));
+        log.debug("-------------------->响应新好友");
+
 
         Long fromId = msg.getFromId();
         Long toId = msg.getToId();
-        String sendMsg = this.handlerMsg(msg);
         //      同步消息入DB库 方便展示
         ChatRecordEntity chatRecordEntity = new ChatRecordEntity();
         chatRecordEntity.setFromId(fromId);
         chatRecordEntity.setToId(toId);
-        chatRecordEntity.setSendContent(sendMsg);
+        chatRecordEntity.setSendContent("我通过了你的朋友验证请求，现在我们可以开始聊天了");
         chatRecordEntity.setSendType(msg.getSendType());
         chatRecordEntity.setSendTime(new Date());
-        Long sendTimeLength = msg.getLength();
-        if (ObjectUtil.isNotNull(sendTimeLength)) {
-            chatRecordEntity.setLength(sendTimeLength);
-        }
         chatRecordService.save(chatRecordEntity);
+
         //查询toId是否存在
         Channel channel = chatChannelGroup.getChannel(toId);
         log.debug("-------------------------------->消息已经入DB库");
@@ -70,23 +69,5 @@ public class ChatMsgHandler extends SimpleChannelInboundHandler<ChatStrMsg> {
         } catch (Exception e) {
             log.debug("对方不在线----------------->do nothing");
         }
-
-    }
-
-    /**
-     * Description: 处理语音消息和文本消息
-     * @author wxl
-     * Date: 2023/1/3 15:39
-     * @param msg  msg
-     * @return byte[]
-     */
-    private String handlerMsg(ChatStrMsg msg) {
-        String sendContent = msg.getSendContent();
-        if (StrUtil.isNotBlank(sendContent)) {
-            log.debug("客户端发送文本的聊天消息:  " + sendContent);
-            return sendContent;
-        }
-        log.warn("语音消息和文字消息不能同时发送或者同时为空");
-        throw new BendanException("发送消息为空");
     }
 }

@@ -63,11 +63,7 @@ public class SysUserController {
     @Operation(summary = "根据用户名查询用户详情")
     @GetMapping("/getUserinfo")
     public CommonResult<UserInfoVo> getUserinfo(@RequestParam("username") String username) {
-//        UserInfo userInfo = sysUserService.findUserInfo(username);
-        SysUserEntity sysUser = sysUserService.findByUsername(username);
-        UserInfoVo userInfoVo = new UserInfoVo();
-        BeanUtils.copyProperties(sysUser,userInfoVo);
-        return CommonResult.success(userInfoVo);
+        return CommonResult.success(sysUserService.getUserinfo(username));
     }
 
     /**

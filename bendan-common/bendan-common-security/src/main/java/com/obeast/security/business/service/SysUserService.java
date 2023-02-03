@@ -4,6 +4,7 @@ package com.obeast.security.business.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.obeast.business.dto.SysUserDTO;
 import com.obeast.business.vo.ChatUserVo;
+import com.obeast.business.vo.UserInfoVo;
 import com.obeast.core.domain.PageParams;
 import com.obeast.business.vo.UserInfo;
 import com.obeast.core.base.CommonResult;
@@ -173,4 +174,12 @@ public interface SysUserService extends IService<SysUserEntity> {
      */
     CommonResult<?> logout(HttpServletRequest request);
 
+    /**
+     * Description: 用户查询用户详情
+     * @author wxl
+     * Date: 2023/2/2 11:18
+     * @param username  username
+     * @return com.obeast.business.vo.UserInfoVo
+     */
+    UserInfoVo getUserinfo(String username);
 }

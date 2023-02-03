@@ -70,13 +70,15 @@ public class WebSocketServer implements CommandLineRunner {
                                 .addLast(new ReadTimeoutHandler(10, TimeUnit.MINUTES))
 //                                .addLast(new ByteMsgHandler())
                                 //WebSocket客服端处理器
-                                .addLast(new SeriChannelInHandler())
+                                .addLast(new SeriChannelInHandler(chatChannelGroup))
                                 //关闭连接
                                 .addLast(new ShutDownMsgHandler(chatChannelGroup))
                                 // 新建连接处理器
                                 .addLast(new ConnectMsgHandler(chatChannelGroup))
                                 //心跳
                                 .addLast(new HeardMsgHandler())
+                                // 新朋友
+                                .addLast(new NewFriendMsgHandler(chatRecordService, chatChannelGroup, rabbitTemplate))
                                 // 文本
                                 .addLast(new ChatMsgHandler(chatChannelGroup, rabbitTemplate, chatRecordService))
                         ;

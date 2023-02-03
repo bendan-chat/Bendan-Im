@@ -6,6 +6,7 @@ import com.obeast.chat.business.domain.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 1.0
  * Description: 拆分WebSocket的帧
  */
+@RequiredArgsConstructor
 @Slf4j
 public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
+    private Long userId;
 
+    private final  ChatChannelGroup chatChannelGroup;
     @Transactional
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
@@ -30,11 +34,17 @@ public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSoc
         if (baseMsg.getCode().equals(CodeStrategyContext.NEW_CONNECTION)){
             log.debug("新连接handle------------->NEW_CONNECTION");
             baseMsg = JSONUtil.toBean(text, ConnectMsg.class);
+            userId = baseMsg.getFromId();
         }
         //心跳
         else if (baseMsg.getCode().equals(CodeStrategyContext.HEARD)){
             log.debug("心跳handle---------------->HEARD");
             baseMsg = JSONUtil.toBean(text, HeardMsg.class);
+        }
+        // 新好友
+        else if (baseMsg.getCode().equals(CodeStrategyContext.NEW_FRIEND)) {
+            log.debug("新好友---------------->NEW_FRIEND");
+            baseMsg = JSONUtil.toBean(text, NewFriendMsg.class);
         }
         //消息
         else if (baseMsg.getCode().equals(CodeStrategyContext.SEND_MSG)) {
@@ -55,8 +65,9 @@ public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSoc
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         log.debug("------------------------------>客户端开始关闭连接");
+        chatChannelGroup.removeChannel(userId);
         ctx.close();
-        log.debug("------------------------------>客户端关闭连接成功");
+        log.debug("------------------------------>客户端{}  关闭连接成功", userId);
 
     }
 

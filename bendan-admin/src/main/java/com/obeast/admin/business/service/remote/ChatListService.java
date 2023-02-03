@@ -5,8 +5,10 @@ import com.obeast.core.base.CommonResult;
 import com.obeast.core.config.fegin.FeignConfig;
 import com.obeast.core.domain.PageObjects;
 import com.obeast.core.domain.PageParams;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,4 +47,16 @@ public interface ChatListService {
     @GetMapping("/record/listRecord")
     CommonResult<PageObjects<ChatRecordEntity>> pageRecord(@SpringQueryMap PageParams pageParams, @RequestParam("userId") Long userId, @RequestParam("toId") Long toId);
 
+
+
+    /**
+     * Description: 删除好友聊天记录
+     * @author wxl
+     * Date: 2023/2/3 9:37
+     * @param curUserId curUserId
+     * @param addUserId addUserId
+     * @return java.lang.Boolean
+     */
+    @DeleteMapping("/record/delChatRecord")
+    Boolean delChatRecord(@RequestParam("curUserId") Long curUserId, @RequestParam("addUserId") Long addUserId);
 }

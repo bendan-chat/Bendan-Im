@@ -1,6 +1,6 @@
 package com.obeast.admin;
 
-import com.obeast.admin.business.dao.FriendRelEntityDao;
+import com.obeast.admin.business.service.AddFriendRelService;
 import com.obeast.business.entity.SysMenuEntity;
 import com.obeast.business.entity.SysUserEntity;
 import com.obeast.security.business.service.SysMenuService;
@@ -27,14 +27,15 @@ import java.util.List;
 public class BendanAdminApplicationTest {
     @Autowired
     SysUserService sysUserDao;
-
     @Autowired
-    FriendRelEntityDao friendRelEntityDao;
+    AddFriendRelService addFriendRelService;
+
 
     @Test
     void addFriend() {
-        System.out.println(friendRelEntityDao.addFriend(9L, 10L));
+         addFriendRelService.delFriendAndChatRecord(1L, 9L);
     }
+
 
     private static final String json = """
             {

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.obeast.business.entity.ChatRecordEntity;
+import com.obeast.business.entity.ChatRecordEntity;
 import com.obeast.chat.business.service.ChatRecordService;
 import com.obeast.chat.business.dao.ChatRecordDao;
 import com.obeast.core.domain.PageObjects;
@@ -44,6 +45,17 @@ public class ChatRecordServiceImpl extends ServiceImpl<ChatRecordDao, ChatRecord
                 wrapper
         );
         return new PageQueryUtils<>().getPageObjects(page, ChatRecordEntity.class);
+    }
+
+    @Override
+    public Boolean delChatRecord(Long curUserId, Long addUserId) {
+        LambdaQueryWrapper<ChatRecordEntity> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(ChatRecordEntity::getFromId, curUserId).and(i -> {
+            i.eq(ChatRecordEntity::getToId, addUserId);
+        }).or().eq(ChatRecordEntity::getFromId, addUserId).and(i -> {
+            i.eq(ChatRecordEntity::getToId, curUserId);
+        });
+        return this.remove(wrapper);
     }
 
     @Override

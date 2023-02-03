@@ -15,6 +15,7 @@ import com.obeast.business.entity.SysMenuEntity;
 import com.obeast.business.entity.SysRoleEntity;
 import com.obeast.business.entity.SysUserEntity;
 import com.obeast.business.vo.OAuth2PasswordVo;
+import com.obeast.business.vo.UserInfoVo;
 import com.obeast.core.domain.PageParams;
 import com.obeast.business.vo.UserInfo;
 import com.obeast.core.base.CommonResult;
@@ -29,6 +30,7 @@ import com.obeast.security.business.service.SysUserService;
 import com.obeast.security.business.service.remote.OAuth2TokenEndpoint;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -95,6 +97,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
             JSONObject data = JSONUtil.parseObj(commonResult);
             data.putOpt("userId", sysUser.getId());
             data.putOpt("avatar", sysUser.getAvatar());
+            data.putOpt("nickName", sysUser.getNickName());
+            data.putOpt("email", sysUser.getEmail());
+            data.putOpt("gender", sysUser.getGender());
             return CommonResult.success(data);
 
         } catch (Exception e) {
@@ -103,6 +108,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
         }
     }
 
+
+    @Override
+    public UserInfoVo getUserinfo(String username) {
+        SysUserEntity sysUser = this.findByUsername(username);
+        if (sysUser == null) {
+            return null;
+        }
+        UserInfoVo userInfoVo = new UserInfoVo();
+        BeanUtils.copyProperties(sysUser, userInfoVo);
+        return userInfoVo;
+    }
 
     @Override
     public CommonResult<?> logout(HttpServletRequest request) {

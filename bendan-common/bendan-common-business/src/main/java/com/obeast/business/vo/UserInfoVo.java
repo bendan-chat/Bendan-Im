@@ -47,13 +47,11 @@ public class UserInfoVo implements Serializable {
      */
     @Schema(description = "昵称")
     private String nickName;
-
     /**
-     * 真实姓名
+     * 个人描述
      */
-    @Schema(description = "真实姓名")
-    private String realName;
-
+    @Schema(description = "个人描述")
+    private String selfDescription;
     /**
      * 手机号
      */

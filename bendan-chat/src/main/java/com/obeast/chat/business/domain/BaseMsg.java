@@ -25,9 +25,8 @@ public class BaseMsg implements Serializable{
 
 
     /**
-     * 当前用户fromUuid
+     * 当前用户fromId
      * */
     private Long fromId;
-
 
 }
