@@ -18,7 +18,7 @@ public interface CodeStrategyContext {
      * 3->聊天消息
      * 4->关闭聊天
      * 5-> 新好友添加
-     * @since 0.0.4 -> 2022.7.25
+     * @since 1.0.2 -> 2023.2.4
      */
     Integer NEW_CONNECTION = 1;
 
@@ -28,7 +28,9 @@ public interface CodeStrategyContext {
 
     Integer SEND_SHUTDOWN = 4;
 
-    Integer NEW_FRIEND = 5;
+    Integer ADD_NEW_FRIEND = 5;
+
+    Integer AGREE_NEW_FRIEND = 6;
 
 
 }

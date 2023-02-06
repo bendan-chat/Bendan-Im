@@ -22,7 +22,7 @@ public class SysUserDTO extends SysUserEntity {
     /**
      * 角色ids
      */
-    @NotNull(groups = {AddGroup.class, UpdateGroup.class})
+    @NotNull(groups = {AddGroup.class})
     @Schema(description = "角色ids")
     private List<Long> roleIds;
 }

@@ -3,6 +3,7 @@ package com.obeast.chat.handler;
 
 import cn.hutool.json.JSONUtil;
 import com.obeast.chat.business.domain.*;
+import com.obeast.chat.business.domain.msg.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -27,7 +28,7 @@ public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSoc
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         String text = msg.text();
-
+        log.debug("text: " + text);
         //json字符串转为bean
         BaseMsg baseMsg = JSONUtil.toBean(text, BaseMsg.class);
         //新连接
@@ -38,20 +39,22 @@ public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSoc
         }
         //心跳
         else if (baseMsg.getCode().equals(CodeStrategyContext.HEARD)){
-            log.debug("心跳handle---------------->HEARD");
             baseMsg = JSONUtil.toBean(text, HeardMsg.class);
         }
         // 新好友
-        else if (baseMsg.getCode().equals(CodeStrategyContext.NEW_FRIEND)) {
+        else if (baseMsg.getCode().equals(CodeStrategyContext.ADD_NEW_FRIEND)) {
+            log.debug("新好友---------------->ADD_NEW_FRIEND");
+            baseMsg = JSONUtil.toBean(text, AddNewFriendMsg.class);
+        }
+        // 新好友
+        else if (baseMsg.getCode().equals(CodeStrategyContext.AGREE_NEW_FRIEND)) {
             log.debug("新好友---------------->NEW_FRIEND");
-            baseMsg = JSONUtil.toBean(text, NewFriendMsg.class);
+            baseMsg = JSONUtil.toBean(text, AgreeNewFriendMsg.class);
         }
         //消息
         else if (baseMsg.getCode().equals(CodeStrategyContext.SEND_MSG)) {
-            log.debug("文本handle---------------->SEND_MESSAGE");
             baseMsg = JSONUtil.toBean(text, ChatStrMsg.class);
         }
-        log.debug("------------------->往下传递");
         ctx.fireChannelRead(baseMsg);
 
     }

@@ -44,7 +44,7 @@ public class SysUserEntity implements Serializable {
     /**
      * 用户名称
      */
-    @NotNull(groups = {AddGroup.class, UpdateGroup.class})
+    @NotNull(groups = {AddGroup.class})
     @Schema(description = "用户名")
     private String username;
 
@@ -84,7 +84,7 @@ public class SysUserEntity implements Serializable {
     /**
      * 邮箱
      */
-    @NotNull(groups = {AddGroup.class, UpdateGroup.class})
+    @NotNull(groups = {AddGroup.class})
     @Email(groups = {AddGroup.class, UpdateGroup.class})
     @Schema(description = "邮箱")
     private String email;
@@ -93,7 +93,6 @@ public class SysUserEntity implements Serializable {
     /**
      * 状态（0-正常  1-锁定  2-删除）
      */
-    @NotNull(groups = {UpdateGroup.class})
     @Range(min = 0, max = 2)
     @Schema(description = "状态（0-正常 1-锁定 2-删除）")
     private Integer status;

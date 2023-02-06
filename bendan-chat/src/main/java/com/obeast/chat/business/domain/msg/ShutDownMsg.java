@@ -1,4 +1,4 @@
-package com.obeast.chat.business.domain;
+package com.obeast.chat.business.domain.msg;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,12 +7,10 @@ import lombok.EqualsAndHashCode;
  * @author wxl
  * Date 2022/12/27 12:42
  * @version 1.0
- * Description: 心跳消息
+ * Description: 关闭连接实体
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class HeardMsg extends BaseMsg{
-
+public class ShutDownMsg extends BaseMsg {
 
 }
-

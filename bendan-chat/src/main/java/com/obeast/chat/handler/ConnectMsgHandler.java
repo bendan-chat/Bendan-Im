@@ -1,7 +1,7 @@
 package com.obeast.chat.handler;
 
 import com.obeast.chat.business.domain.ChatChannelGroup;
-import com.obeast.chat.business.domain.ConnectMsg;
+import com.obeast.chat.business.domain.msg.ConnectMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;

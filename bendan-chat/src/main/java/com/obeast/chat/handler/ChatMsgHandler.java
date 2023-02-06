@@ -3,7 +3,7 @@ package com.obeast.chat.handler;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.obeast.chat.business.domain.ChatChannelGroup;
-import com.obeast.chat.business.domain.ChatStrMsg;
+import com.obeast.chat.business.domain.msg.ChatStrMsg;
 import com.obeast.business.entity.ChatRecordEntity;
 import com.obeast.chat.business.service.ChatRecordService;
 import com.obeast.core.exception.BendanException;

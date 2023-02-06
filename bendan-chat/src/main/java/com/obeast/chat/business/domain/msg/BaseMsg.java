@@ -1,4 +1,4 @@
-package com.obeast.chat.business.domain;
+package com.obeast.chat.business.domain.msg;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,7 @@ public class BaseMsg implements Serializable{
      * 2->心跳
      * 3->聊天文本消息
      * 4->聊天二进制消息（音频）
+     * 5-> 新的朋友
      * */
     public Integer code;
 

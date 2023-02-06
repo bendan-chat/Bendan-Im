@@ -31,6 +31,7 @@ import com.obeast.security.business.service.remote.OAuth2TokenEndpoint;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -66,10 +67,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
     private final OAuth2TokenEndpoint OAuth2TokenEndpoint;
 
     private final SysMenuService sysMenuService;
-
     private final OAuth2AuthorizationService oAuth2AuthorizationService;
 
-    private final SysUserDao sysUserDao;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private static final PasswordEncoder ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
@@ -108,6 +108,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
         }
     }
 
+
+    @Override
+    public Boolean updateUserPassword(String password) {
+        return null;
+    }
 
     @Override
     public UserInfoVo getUserinfo(String username) {

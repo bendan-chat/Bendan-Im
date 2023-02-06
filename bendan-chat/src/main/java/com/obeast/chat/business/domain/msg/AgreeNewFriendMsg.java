@@ -1,4 +1,4 @@
-package com.obeast.chat.business.domain;
+package com.obeast.chat.business.domain.msg;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class NewFriendMsg extends BaseMsg{
+public class AgreeNewFriendMsg extends BaseMsg{
 
     /**
      * fromId 来自谁的ID
@@ -22,11 +22,6 @@ public class NewFriendMsg extends BaseMsg{
      * toId 去向谁的的ID
      * */
     private Long toId;
-
-    /**
-     * 消息类型
-     * */
-    private Integer sendType;
 
 }
 

@@ -1,6 +1,7 @@
 package com.obeast.admin;
 
 import com.obeast.admin.business.service.AddFriendRelService;
+import com.obeast.admin.business.service.BendanMailService;
 import com.obeast.business.entity.SysMenuEntity;
 import com.obeast.business.entity.SysUserEntity;
 import com.obeast.security.business.service.SysMenuService;
@@ -30,10 +31,19 @@ public class BendanAdminApplicationTest {
     @Autowired
     AddFriendRelService addFriendRelService;
 
+    @Autowired
+    BendanMailService bendanMailService;
+
+
+
 
     @Test
     void addFriend() {
          addFriendRelService.delFriendAndChatRecord(1L, 9L);
+    }
+    @Test
+    void bendanMailService() {
+        bendanMailService.sendMailCode(1L, "obeast.gym@gmail.com");
     }
 
 

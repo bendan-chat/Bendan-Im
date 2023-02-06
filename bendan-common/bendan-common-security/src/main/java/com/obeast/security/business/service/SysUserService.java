@@ -3,7 +3,6 @@ package com.obeast.security.business.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.obeast.business.dto.SysUserDTO;
-import com.obeast.business.vo.ChatUserVo;
 import com.obeast.business.vo.UserInfoVo;
 import com.obeast.core.domain.PageParams;
 import com.obeast.business.vo.UserInfo;
@@ -182,4 +181,14 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @return com.obeast.business.vo.UserInfoVo
      */
     UserInfoVo getUserinfo(String username);
+
+    /**
+     * Description: 修改用户密码
+     * @author wxl
+     * Date: 2023/2/6 17:35
+     * @param password password
+     * @return java.lang.Boolean
+     */
+    Boolean updateUserPassword(String password);
+
 }

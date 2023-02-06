@@ -55,11 +55,6 @@ public class SysUserController {
     }
 
 
-    @Operation(summary = "邮箱验证")
-    @GetMapping("/emailCheck")
-    public void emailCheck(@RequestParam("email") String email) {
-    }
-
     @Operation(summary = "根据用户名查询用户详情")
     @GetMapping("/getUserinfo")
     public CommonResult<UserInfoVo> getUserinfo(@RequestParam("username") String username) {
@@ -99,17 +94,22 @@ public class SysUserController {
     }
 
 
-
     @Operation(summary = "创建用户")
     @PostMapping("/create")
-    public Boolean createUser (@Validated({AddGroup.class}) @RequestBody SysUserDTO sysUserDto) throws LoginException {
+    public Boolean createUser (@Validated({AddGroup.class}) @RequestBody SysUserDTO sysUserDto)  {
         return sysUserService.createUser(sysUserDto);
     }
 
     @Operation(summary = "修改用户详情")
     @PostMapping("/update")
     public Boolean updateUser (@Validated({UpdateGroup.class}) @RequestBody SysUserDTO sysUserDto) {
-        return sysUserService.updateUser(sysUserDto);
+        return sysUserService.updateById(sysUserDto);
+    }
+
+    @Operation(summary = "修改用户密码")
+    @PostMapping("/updatePassword")
+    public Boolean updateUserPassword (@RequestParam("password") String password) {
+        return sysUserService.updateUserPassword(password);
     }
 
     @Operation(summary = "删除用户")

@@ -1,4 +1,4 @@
-package com.obeast.chat.business.domain;
+package com.obeast.chat.business.domain.msg;
 
 
 import lombok.Data;

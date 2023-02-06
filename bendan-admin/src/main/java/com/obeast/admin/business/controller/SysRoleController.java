@@ -68,7 +68,7 @@ public class SysRoleController {
         return CommonResult.success(data, "list");
     }
 
-    /**qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+    /**
      * 根据id查询
      */
     @GetMapping("/getOneById/{id}")
