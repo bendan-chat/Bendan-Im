@@ -23,15 +23,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailController {
     private final BendanMailService bendanMailService;
 
-    @Operation(summary = "发送验证码")
-    @GetMapping("/sendMailCode")
-    public void sendMailCode(@RequestParam("useId") Long useId, @RequestParam("email") String email) {
-        bendanMailService.sendMailCode(useId, email);
+    @Operation(summary = "后台发送验证码")
+    @GetMapping("/sendMailCodeByUserId")
+    public String sendMailCode(@RequestParam("useId") Long useId, @RequestParam("email") String email) {
+        return bendanMailService.sendMailCode(useId, email);
     }
+
+    @Operation(summary = "前台发送验证码")
+    @GetMapping("/sendMailCode")
+    public Long sendMailCode(
+            @RequestParam("email") String email,
+            @RequestParam("randomNum") String randomNum
+    ) {
+       return bendanMailService.sendMailCode(email, randomNum);
+    }
+
+
 
     @Operation(summary = "校验验证码")
     @GetMapping("/checkMailCode")
-    public CommonResult<?> checkMailCode (
+    public CommonResult<?> checkMailCode(
             @RequestParam("userId") Long userId,
             @RequestParam("mailCode") String mailCode) {
         return bendanMailService.checkVerificationCode(userId, mailCode);

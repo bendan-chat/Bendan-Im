@@ -29,4 +29,17 @@ public interface CacheConstant {
      * 邮箱验证码
      * */
     String MAIL_VERIFICATION_CODE = "MAIL_VERIFICATION_CODE";
+
+    /**
+     * Description: 创建redis存储的key
+     *
+     * @param type  token type
+     * @param value token value
+     * @return java.lang.String
+     * @author wxl
+     * Date: 2022/10/31 17:02
+     */
+    static String createRedisKey(String type, String value) {
+        return String.format("%s::%s::%s", CacheConstant.TOKEN, type, value);
+    }
 }

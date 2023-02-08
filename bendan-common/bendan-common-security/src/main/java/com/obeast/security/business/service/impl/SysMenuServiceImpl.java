@@ -73,6 +73,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity>
         return handlerMenusTree(menus);
     }
 
+    /**
+     * Description: 把 sysMenus 变成树
+     *
+     * @param sysMenuEntities sysMenus
+     * @return java.util.List<com.worldintek.business.entity.SysMenu>
+     * @author wxl
+     * Date: 2022/12/13 10:33
+     */
+    private List<SysMenuEntity> handlerMenusTree(Set<SysMenuEntity> sysMenuEntities) {
+        return sysMenuEntities
+                .stream()
+                .filter(menu ->
+                        menu.getParentId().equals(MenuConstant.FATHER_ID))
+                .peek(menu -> menu.setChildren(this.getChildren(menu, sysMenuEntities)))
+                .sorted(Comparator.comparingInt(SysMenuEntity::getSort))
+                .toList();
+    }
+
     @Override
     public Long getIdByTitle(String title) throws NullPointerException {
         LambdaQueryWrapper<SysMenuEntity> wrapper = new LambdaQueryWrapper<>();
@@ -127,23 +145,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity>
 
 
 
-    /**
-     * Description: 把 sysMenus 变成树
-     *
-     * @param sysMenuEntities sysMenus
-     * @return java.util.List<com.worldintek.business.entity.SysMenu>
-     * @author wxl
-     * Date: 2022/12/13 10:33
-     */
-    private List<SysMenuEntity> handlerMenusTree(Set<SysMenuEntity> sysMenuEntities) {
-        return sysMenuEntities
-                .stream()
-                .filter(menu ->
-                        menu.getParentId().equals(MenuConstant.FATHER_ID))
-                .peek(menu -> menu.setChildren(this.getChildren(menu, sysMenuEntities)))
-                .sorted(Comparator.comparingInt(SysMenuEntity::getSort))
-                .toList();
-    }
+
 
     /**
      * Description: 递归拿到子孩子

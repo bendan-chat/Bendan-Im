@@ -7,7 +7,7 @@ package com.obeast.core.constant;
  * @version 1.0
  * Description: 请求头常量
  */
-public interface BendanResHeaderConstant {
+public interface ResHeaderConstant {
 
 
     /**

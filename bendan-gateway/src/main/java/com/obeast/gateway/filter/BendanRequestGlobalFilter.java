@@ -2,7 +2,7 @@ package com.obeast.gateway.filter;
 
 import cn.hutool.json.JSONUtil;
 import com.obeast.core.base.CommonResult;
-import com.obeast.core.constant.BendanResHeaderConstant;
+import com.obeast.core.constant.ResHeaderConstant;
 import com.obeast.core.constant.WebResultEnum;
 import com.obeast.gateway.config.GatewayProperties;
 import lombok.RequiredArgsConstructor;
@@ -127,8 +127,8 @@ public class BendanRequestGlobalFilter implements GlobalFilter, Ordered {
      */
     private ServerHttpRequest addHttpHeader (ServerWebExchange exchange) {
         return exchange.getRequest().mutate().headers(httpHeaders -> {
-            httpHeaders.put(BendanResHeaderConstant.from,
-                    Collections.singletonList(BendanResHeaderConstant.bendanValue));
+            httpHeaders.put(ResHeaderConstant.from,
+                    Collections.singletonList(ResHeaderConstant.bendanValue));
         }).build();
     }
 

@@ -41,7 +41,7 @@ public class BendanOAuth2AuthorizationServiceImpl implements OAuth2Authorization
             // TODO: 2022/11/23 注释掉可以在redis看见
             redisTemplate.setValueSerializer(RedisSerializer.java());
             redisTemplate.opsForValue().set(
-                    createRedisKey(OAuth2ParameterNames.STATE, state),
+                    CacheConstant.createRedisKey(OAuth2ParameterNames.STATE, state),
                     authorization,
                     TIMEOUT,
                     SysConstant.REDIS_UNIT
@@ -56,7 +56,7 @@ public class BendanOAuth2AuthorizationServiceImpl implements OAuth2Authorization
                     authorizationCodeToken.getExpiresAt());
             redisTemplate.setValueSerializer(RedisSerializer.java());
             redisTemplate.opsForValue().set(
-                    createRedisKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()),
+                    CacheConstant.createRedisKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()),
                     authorization,
                     between,
                     SysConstant.REDIS_UNIT
@@ -69,7 +69,7 @@ public class BendanOAuth2AuthorizationServiceImpl implements OAuth2Authorization
             long between = SysConstant.TOKEN_UNIT.between(refreshToken.getIssuedAt(), refreshToken.getExpiresAt());
             redisTemplate.setValueSerializer(RedisSerializer.java());
             redisTemplate.opsForValue().set(
-                    createRedisKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()),
+                    CacheConstant.createRedisKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()),
                     authorization
                     ,
                     between,
@@ -83,7 +83,7 @@ public class BendanOAuth2AuthorizationServiceImpl implements OAuth2Authorization
 
             redisTemplate.setValueSerializer(RedisSerializer.java());
             redisTemplate.opsForValue().set(
-                    createRedisKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
+                    CacheConstant.createRedisKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
                     authorization
                     ,
                     between,
@@ -98,25 +98,25 @@ public class BendanOAuth2AuthorizationServiceImpl implements OAuth2Authorization
         List<String> keys =  new ArrayList<>();
         if (isStateNonNull(authorization)) {
             String state = authorization.getAttribute("state");
-            keys.add(createRedisKey(OAuth2ParameterNames.STATE, state));
+            keys.add(CacheConstant.createRedisKey(OAuth2ParameterNames.STATE, state));
 
         }
         if (isCodeNonNull(authorization)) {
             OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = authorization
                     .getToken(OAuth2AuthorizationCode.class);
             OAuth2AuthorizationCode authorizationCodeToken = authorizationCode.getToken();
-            keys.add(createRedisKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()));
+            keys.add(CacheConstant.createRedisKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()));
 
 
         }
         if (isRefreshTokenNonNull(authorization)) {
             OAuth2RefreshToken refreshToken = authorization.getRefreshToken().getToken();
-            keys.add(createRedisKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()));
+            keys.add(CacheConstant.createRedisKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()));
         }
 
         if (isAccessTokenNonNull(authorization)) {
             OAuth2AccessToken accessToken = authorization.getAccessToken().getToken();
-            keys.add(createRedisKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
+            keys.add(CacheConstant.createRedisKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
         }
         redisTemplate.delete(keys);
     }
@@ -131,22 +131,10 @@ public class BendanOAuth2AuthorizationServiceImpl implements OAuth2Authorization
         Assert.hasText(token, "token cannot be empty");
         Assert.notNull(tokenType, "tokenType cannot be empty");
         redisTemplate.setValueSerializer(RedisSerializer.java());
-        return (OAuth2Authorization) redisTemplate.opsForValue().get(createRedisKey(tokenType.getValue(), token));
+        return (OAuth2Authorization) redisTemplate.opsForValue().get(CacheConstant.createRedisKey(tokenType.getValue(), token));
     }
 
 
-    /**
-     * Description: 创建redis存储的key
-     *
-     * @param type  token type
-     * @param value token value
-     * @return java.lang.String
-     * @author wxl
-     * Date: 2022/10/31 17:02
-     */
-    private String createRedisKey(String type, String value) {
-        return String.format("%s::%s::%s", CacheConstant.TOKEN, type, value);
-    }
 
     /**
      * Description: 判断state是否为空

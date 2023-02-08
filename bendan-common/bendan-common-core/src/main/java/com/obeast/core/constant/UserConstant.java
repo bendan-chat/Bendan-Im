@@ -93,4 +93,14 @@ public interface UserConstant {
         }
     }
 
+
+    /**
+     * Description: 格式redis key
+     * @author wxl
+     * Date: 2023/1/10 9:55
+     * @return java.lang.String
+     */
+    static String formatKey  (String username) {
+        return String.format("%s::%s", CacheConstant.USER_INFO, username);
+    }
 }

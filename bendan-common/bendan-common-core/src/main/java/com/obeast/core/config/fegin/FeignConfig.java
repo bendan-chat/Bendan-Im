@@ -1,6 +1,6 @@
 package com.obeast.core.config.fegin;
 
-import com.obeast.core.constant.BendanResHeaderConstant;
+import com.obeast.core.constant.ResHeaderConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -22,7 +22,7 @@ public class FeignConfig implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        requestTemplate.header(BendanResHeaderConstant.from, Collections.singletonList(BendanResHeaderConstant.feignValue));
+        requestTemplate.header(ResHeaderConstant.from, Collections.singletonList(ResHeaderConstant.feignValue));
 
         //1、使用RequestContextHolder拿到刚进来的请求数据
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

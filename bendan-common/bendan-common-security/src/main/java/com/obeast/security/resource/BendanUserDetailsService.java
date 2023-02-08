@@ -1,6 +1,7 @@
 package com.obeast.security.resource;
 
 import org.springframework.core.Ordered;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**

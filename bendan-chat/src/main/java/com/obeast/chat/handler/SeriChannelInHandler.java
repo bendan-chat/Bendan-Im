@@ -28,7 +28,6 @@ public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSoc
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         String text = msg.text();
-        log.debug("text: " + text);
         //json字符串转为bean
         BaseMsg baseMsg = JSONUtil.toBean(text, BaseMsg.class);
         //新连接

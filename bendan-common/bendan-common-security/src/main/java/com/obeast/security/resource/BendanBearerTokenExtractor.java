@@ -1,9 +1,6 @@
 package com.obeast.security.resource;
 
-import com.obeast.core.constant.BendanResHeaderConstant;
 import com.obeast.core.constant.CacheConstant;
-import com.obeast.core.constant.OAuth2Constant;
-import com.obeast.core.constant.SysConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

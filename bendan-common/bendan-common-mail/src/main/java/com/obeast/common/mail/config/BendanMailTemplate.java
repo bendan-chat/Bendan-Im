@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -36,8 +37,9 @@ public class BendanMailTemplate {
      * @param to 发送给
      * @param randomNums 验证码
      */
-    public boolean sendVerificationCode(String to, String randomNums) {
-        return sendText(to, "验证码", randomNums, projectProperties.getName(), projectProperties.getAuthor());
+    @Async
+    public void sendVerificationCode(String to, String randomNums) {
+        sendText(to, "验证码", randomNums, projectProperties.getName(), projectProperties.getAuthor());
     }
 
     /**

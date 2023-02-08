@@ -2,6 +2,7 @@ package com.obeast.admin.business.controller;
 
 
 import cn.hutool.json.JSONObject;
+import com.obeast.business.vo.PasswordUpdateVo;
 import com.obeast.business.vo.UserInfoVo;
 import com.obeast.core.domain.PageParams;
 import com.obeast.security.business.service.SysUserService;
@@ -108,8 +109,9 @@ public class SysUserController {
 
     @Operation(summary = "修改用户密码")
     @PostMapping("/updatePassword")
-    public Boolean updateUserPassword (@RequestParam("password") String password) {
-        return sysUserService.updateUserPassword(password);
+    public Boolean updateUserPassword (
+            @RequestBody PasswordUpdateVo passwordUpdateVo) {
+        return sysUserService.updateUserPassword(passwordUpdateVo.getUserId(), passwordUpdateVo.getPassword());
     }
 
     @Operation(summary = "删除用户")

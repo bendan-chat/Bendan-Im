@@ -25,6 +25,24 @@ import java.util.List;
 public interface SysUserService extends IService<SysUserEntity> {
 
 
+
+    /**
+     * Description: 用户详情删除缓存
+     * @author wxl
+     * Date: 2023/2/8 10:19
+     * @param username username
+     */
+    void delUserCache(String username);
+
+    /**
+     * Description: 用户详情删除缓存
+     * @author wxl
+     * Date: 2023/2/8 10:20
+     * @param userId userId
+     */
+    void delUserCache(Long userId);
+
+
     /**
      * Description: 登录
      *
@@ -184,11 +202,23 @@ public interface SysUserService extends IService<SysUserEntity> {
 
     /**
      * Description: 修改用户密码
-     * @author wxl
-     * Date: 2023/2/6 17:35
+     *
+     * @param userId userId
      * @param password password
      * @return java.lang.Boolean
+     * @author wxl
+     * Date: 2023/2/6 17:35
      */
-    Boolean updateUserPassword(String password);
+    Boolean updateUserPassword(Long userId, String password);
 
+    String getUsernameById(Long userId);
+
+    /**
+     * Description: 根据邮箱获取用户id
+     * @author wxl
+     * Date: 2023/2/8 17:26
+     * @param email  email
+     * @return java.lang.Long
+     */
+    Long getIdByEmail(String email);
 }

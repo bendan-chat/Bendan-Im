@@ -6,7 +6,9 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -28,11 +30,13 @@ import com.obeast.security.business.service.SysMenuService;
 import com.obeast.security.business.service.SysRoleService;
 import com.obeast.security.business.service.SysUserService;
 import com.obeast.security.business.service.remote.OAuth2TokenEndpoint;
+import com.obeast.security.resource.BendanUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -74,6 +78,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
     private static final PasswordEncoder ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 
+
+    @Async
+    @Override
+    public void delUserCache(String username) {
+        redisTemplate.delete(UserConstant.formatKey(username));
+    }
+
+    @Async
+    @Override
+    public void delUserCache(Long userId) {
+        String username = this.getUsernameById(userId);
+        redisTemplate.delete(UserConstant.formatKey(username));
+    }
+
+
     @Override
     public CommonResult<?> login(String username, String password, HttpServletRequest request, HttpServletResponse response) throws BendanException {
         Assert.notNull(username, UserConstant.USERNAME_IS_NULL);
@@ -110,8 +129,35 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
 
 
     @Override
-    public Boolean updateUserPassword(String password) {
-        return null;
+    public Long getIdByEmail(String email) {
+        Assert.notNull(email, "email cannot be null");
+        LambdaQueryWrapper<SysUserEntity> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUserEntity::getEmail, email);
+        SysUserEntity sysUserEntity = this.getOne(wrapper);
+        if (sysUserEntity == null) {
+            return null;
+        }else {
+            return sysUserEntity.getId();
+        }
+    }
+
+    @Override
+    public String getUsernameById(Long userId) {
+        Assert.notNull(userId, "userId cannot be null");
+        SysUserEntity sysUser = this.getById(userId);
+        return sysUser.getUsername();
+    }
+
+    @Override
+    public Boolean updateUserPassword(Long userId, String password) {
+        Assert.notNull(userId, "userId cannot be null");
+        Assert.notNull(password, "password cannot be null");
+        String encodePassword = this.encryptionPassword(password);
+        LambdaUpdateWrapper<SysUserEntity> wrapper = Wrappers.lambdaUpdate();
+        wrapper.eq(SysUserEntity::getId, userId);
+        wrapper.set(SysUserEntity::getPassword, encodePassword);
+        this.delUserCache(userId);
+        return this.update(wrapper);
     }
 
     @Override
@@ -127,20 +173,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
 
     @Override
     public CommonResult<?> logout(HttpServletRequest request) {
-//        Map<String, String> mapCookie = CookieUtil.getMapCookie(request.getCookies());
         String authorization = request.getHeader(OAuth2Constant.AUTHORIZATION);
-//                mapCookie.get(SysConstant.TOKEN);
         if (authorization == null) {
             return CommonResult.success();
         }
         String token = authorization.replace(OAuth2AccessToken.TokenType.BEARER.getValue(), StrUtil.EMPTY).trim();
-        OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-        if (oAuth2Authorization == null) {
-            return CommonResult.success();
-        } else {
-            oAuth2AuthorizationService.remove(oAuth2Authorization);
+        if (StrUtil.isBlank(token)) {
             return CommonResult.success();
         }
+        OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+        if (oAuth2Authorization != null) {
+            oAuth2AuthorizationService.remove(oAuth2Authorization);
+        }
+        return CommonResult.success();
     }
 
     @Override
@@ -222,10 +267,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
     public Boolean addUser(SysUserEntity sysUserEntity) {
         String username = sysUserEntity.getUsername();
         Assert.isTrue(!this.isUserExistByName(username), UserConstant.USER_EXIST);
-        String password = sysUserEntity.getPassword();
-        String encodePassword = ENCODER.encode(password);
+        String encodePassword = this.encryptionPassword(sysUserEntity.getPassword());
         sysUserEntity.setPassword(encodePassword);
         return this.save(sysUserEntity);
+    }
+
+    /**
+     * Description: 前台密码后台加密
+     * @author wxl
+     * Date: 2023/2/8 10:00
+     * @param password password
+     * @return java.lang.String
+     */
+    private String encryptionPassword(String password) {
+        return ENCODER.encode(password);
     }
 
     @Transactional(rollbackFor = Exception.class)

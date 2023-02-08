@@ -4,7 +4,7 @@ package com.obeast.core.config.web;
 
 import cn.hutool.json.JSONUtil;
 import com.obeast.core.base.CommonResult;
-import com.obeast.core.constant.BendanResHeaderConstant;
+import com.obeast.core.constant.ResHeaderConstant;
 import com.obeast.core.exception.BendanException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -25,11 +25,11 @@ public class RequestHeaderContextInterceptor implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws Exception {
         try {
-            String header = request.getHeader(BendanResHeaderConstant.from);
+            String header = request.getHeader(ResHeaderConstant.from);
             if (header == null) {
                 throw new BendanException("异常调用");
             }else {
-                if (header.equals(BendanResHeaderConstant.bendanValue)){
+                if (header.equals(ResHeaderConstant.bendanValue)){
                     log.info("fromHeader:  {}", header);
                     return true;
                 }else {

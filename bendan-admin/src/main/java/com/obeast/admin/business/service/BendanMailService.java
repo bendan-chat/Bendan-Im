@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.obeast.common.mail.config.BendanMailTemplate;
 import com.obeast.core.base.CommonResult;
 import com.obeast.core.constant.CacheConstant;
+import com.obeast.core.exception.BendanException;
+import com.obeast.security.business.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -24,28 +26,43 @@ public class BendanMailService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
+    private final SysUserService  sysUserService;
+
     /**
-     * Description: 发送邮箱
+     * Description: 发送邮箱 后端生成验证码
      *
      * @param useId 用户id
      * @author wxl
      * Date: 2023/1/9 14:22
      */
-    public void sendMailCode(Long useId, String email) {
+    public String sendMailCode(Long useId, String email) {
         String randomNum = mailTemplate.genVerificationCode();
-        boolean sendVerificationCode = mailTemplate.sendVerificationCode(email, randomNum);
-        if (sendVerificationCode) {
-            this.saveVerificationCode(useId, randomNum);
-        }
+        mailTemplate.sendVerificationCode(email, randomNum);
+        this.saveVerificationCode(useId, randomNum);
+        return randomNum;
+    }
+
+    /**
+     * Description: 发送邮箱 前端生成验证码
+     *
+     * @param email     mail
+     * @param randomNum randomNum
+     * @author wxl
+     * Date: 2023/1/9 14:22
+     */
+    public Long sendMailCode(String email, String randomNum) {
+        mailTemplate.sendVerificationCode(email, randomNum);
+        return sysUserService.getIdByEmail(email);
     }
 
     /**
      * Description: 校验验证码
+     *
+     * @param userId   userId
+     * @param mailCode mailCode
+     * @return com.obeast.core.base.CommonResult<?>
      * @author wxl
      * Date: 2023/2/6 17:34
-     * @param userId userId
-     * @param mailCode  mailCode
-     * @return com.obeast.core.base.CommonResult<?>
      */
     public CommonResult<?> checkVerificationCode(Long userId, String mailCode) {
         String key = this.formatKey(userId);
