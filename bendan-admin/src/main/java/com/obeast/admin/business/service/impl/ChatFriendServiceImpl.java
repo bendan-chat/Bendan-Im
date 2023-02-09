@@ -72,8 +72,7 @@ public class ChatFriendServiceImpl implements ChatFriendService {
 
 
     @Override
-    public List<ChatUserVo> getChatList(String username) {
-        Long userId = sysUserService.getIdByUsername(username);
+    public List<ChatUserVo> getChatList(Long userId) {
         List<Long> friendIds = chatListService.chatList(userId);
         return getChatUserByChatList(friendIds, userId, Boolean.TRUE);
     }

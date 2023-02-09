@@ -37,10 +37,10 @@ public interface ChatFriendService {
      * Description: 查询聊天列表详情
      * @author wxl
      * Date: 2023/1/14 14:47
-     * @param username  username
+     * @param userId  userId
      * @return java.util.List<com.obeast.business.vo.ChatUserVo>
      */
-    List<ChatUserVo> getChatList(String username);
+    List<ChatUserVo> getChatList(Long userId);
 
     /**
      * Description: 查询好友详情
