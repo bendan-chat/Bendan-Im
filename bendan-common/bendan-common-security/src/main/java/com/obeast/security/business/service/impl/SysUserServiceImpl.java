@@ -4,6 +4,7 @@ package com.obeast.security.business.service.impl;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -35,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -49,6 +51,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -77,7 +80,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
 
     private static final PasswordEncoder ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-
+    @PostConstruct
+    private void initUser() {
+        List<String> usernames = this.queryAllUsernames();
+        JSONArray jsonArray = JSONUtil.parseArray(usernames);
+        redisTemplate.opsForValue().set(CacheConstant.USERNAME_LIST, jsonArray);
+    }
 
     @Async
     @Override
@@ -128,6 +136,35 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public CommonResult<?> register(SysUserDTO sysUserDto) {
+        Boolean addUser = this.addUser(sysUserDto);
+        Long userId = sysUserDto.getId();
+        if (addUser) {
+            List<Long> roleIds = sysUserDto.getRoleIds();
+            Boolean addRelation = sysRoleService.addRoleUserRels(userId, roleIds);
+            Assert.isTrue(addRelation, () -> {
+                throw new BendanException("新增用户角色关系失败");
+            });
+            return CommonResult.success();
+        }
+        return CommonResult.error("注册失败");
+    }
+
+    @Override
+    public List<String> queryAllUsernames() {
+        Object o = redisTemplate.opsForValue().get(CacheConstant.USERNAME_LIST);
+        if (o == null) {
+            List<String> usernames = this.queryAll().stream().map(SysUserEntity::getUsername).toList();
+            JSONArray jsonArray = JSONUtil.parseArray(usernames);
+            redisTemplate.opsForValue().set(CacheConstant.USERNAME_LIST, jsonArray);
+            return usernames;
+        } else {
+            return (List<String>) o;
+        }
+    }
+
     @Override
     public Long getIdByEmail(String email) {
         Assert.notNull(email, "email cannot be null");
@@ -136,7 +173,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
         SysUserEntity sysUserEntity = this.getOne(wrapper);
         if (sysUserEntity == null) {
             return null;
-        }else {
+        } else {
             return sysUserEntity.getId();
         }
     }
@@ -245,24 +282,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
     }
 
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public Boolean createUser(SysUserDTO sysUserDto) {
-        sysUserDto.setUpdateId(sysUserDto.getCreateId());
-        /*保存用户*/
-        Boolean addUser = this.addUser(sysUserDto);
-        Long userId = sysUserDto.getId();
-        if (addUser) {
-            List<Long> roleIds = sysUserDto.getRoleIds();
-            Boolean addRelation = sysRoleService.addRoleUserRels(userId, roleIds);
-            Assert.isTrue(addRelation, () -> {
-                throw new BendanException("新增用户失败");
-            });
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
-    }
-
     @Override
     public Boolean addUser(SysUserEntity sysUserEntity) {
         String username = sysUserEntity.getUsername();
@@ -274,10 +293,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
 
     /**
      * Description: 前台密码后台加密
-     * @author wxl
-     * Date: 2023/2/8 10:00
+     *
      * @param password password
      * @return java.lang.String
+     * @author wxl
+     * Date: 2023/2/8 10:00
      */
     private String encryptionPassword(String password) {
         return ENCODER.encode(password);

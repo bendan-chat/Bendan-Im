@@ -49,10 +49,12 @@ public class WsQueueListener {
     @RabbitHandler
     public void wsChatMsg(ChatRecordEntity chatMsg, com.rabbitmq.client.Channel channelMq,
                           @Header(AmqpHeaders.DELIVERY_TAG) long tag) {
-        log.debug("Mq 监听到消息");
-        //根据toId查询userId
+        //  Mq 监听到消息
+        //根据toId查询通道
         Long toId = chatMsg.getToId();
         io.netty.channel.Channel channel = channelGroup.getChannel(toId);
+
+        // 对方在线
         if (channel != null) {
             log.debug("转发的数据为："+ chatMsg);
             TextWebSocketFrame resp = new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg));

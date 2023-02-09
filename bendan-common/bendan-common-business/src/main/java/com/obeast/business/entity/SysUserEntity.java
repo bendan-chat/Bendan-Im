@@ -51,7 +51,7 @@ public class SysUserEntity implements Serializable {
     /**
      * 密码
      */
-    @Length(min = 5, max = 10, message = "密码长度必须在5~10之间", groups = {AddGroup.class})
+    @Length(min = 8, max = 16, message = "密码长度必须在8~16之间", groups = {AddGroup.class})
     @NotBlank(message = "密码不能为空", groups = {AddGroup.class})
     @Schema(description = "密码")
     private String password;
@@ -108,7 +108,6 @@ public class SysUserEntity implements Serializable {
     /**
      * 创建人ID
      */
-    @NotNull(groups = {AddGroup.class})
     @Schema(description = "创建人ID")
     private Long createId;
 

@@ -58,27 +58,26 @@ public class ChatMsgHandler extends SimpleChannelInboundHandler<ChatStrMsg> {
         //查询toId是否存在
         Channel channel = chatChannelGroup.getChannel(toId);
         log.debug("-------------------------------->消息已经入DB库");
-        // TODO: 2023/1/15  对方在线直接发送；不在线丢到mq做微标
-        try {
-            if (channel.isOpen()) {
-                //对方在线，才做rabbitMq转发
-                log.debug("channel is open is ok");
-                log.debug("对方在线通过RabbitMq发送");
-                //通过rabbitmq转发出去
-                rabbitTemplate.convertAndSend("ws_exchange", "", chatRecordEntity);
-            }
-        } catch (Exception e) {
+
+        if (channel.isOpen()) {
+            //对方在线，才做rabbitMq转发
+            log.debug("对方在线通过RabbitMq发送");
+            //通过rabbitmq转发出去
+            rabbitTemplate.convertAndSend("ws_exchange", "", chatRecordEntity);
+        } else {
             log.debug("对方不在线----------------->do nothing");
+
         }
 
     }
 
     /**
      * Description: 处理语音消息和文本消息
+     *
+     * @param msg msg
+     * @return byte[]
      * @author wxl
      * Date: 2023/1/3 15:39
-     * @param msg  msg
-     * @return byte[]
      */
     private String handlerMsg(ChatStrMsg msg) {
         String sendContent = msg.getSendContent();

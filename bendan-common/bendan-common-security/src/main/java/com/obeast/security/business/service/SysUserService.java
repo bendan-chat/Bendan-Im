@@ -58,15 +58,6 @@ public interface SysUserService extends IService<SysUserEntity> {
 
 
     /**
-     * Description: 创建用户
-     * @author wxl
-     * Date: 2022/12/8 15:38
-     * @param sysUserDto registerSysUserParam
-     * @return java.lang.Boolean
-     */
-    Boolean createUser(SysUserDTO sysUserDto) ;
-
-    /**
      * Description: 新增用户不分配角色
      *
      * @param sysUser agriIotSysUser
@@ -221,4 +212,22 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @return java.lang.Long
      */
     Long getIdByEmail(String email);
+
+
+    /**
+     * Description: 查询所有用户名
+     * @author wxl
+     * Date: 2023/2/9 11:03
+     * @return java.util.List<java.lang.String>
+     */
+    List<String> queryAllUsernames();
+
+    /**
+     * Description: 注册用户
+     * @author wxl
+     * Date: 2023/2/9 13:41
+     * @param sysUserDto sysUserDto
+     * @return CommonResult
+     */
+    CommonResult<?> register(SysUserDTO sysUserDto);
 }

@@ -15,6 +15,12 @@ public interface CacheConstant {
 
 
     /**
+     * 菜单信息缓存
+     */
+    String USERNAME_LIST = "USERNAME_LIST";
+
+
+    /**
      * 二级缓存名字
      * */
     String USER_INFO = "USER_INFO";

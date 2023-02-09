@@ -103,4 +103,5 @@ public interface UserConstant {
     static String formatKey  (String username) {
         return String.format("%s::%s", CacheConstant.USER_INFO, username);
     }
+
 }

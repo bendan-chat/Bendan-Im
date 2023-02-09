@@ -73,13 +73,22 @@ public class SysUserController {
 
 
     /**
-     * 查询所有
+     * 查询所有用户
      */
-    @Operation(summary = "查询所有")
+    @Operation(summary = "查询所有用户")
 //    @PreAuthorize("@pvs.hasPurview('sys_user_query')")
     @GetMapping("/listAll")
     public List<SysUserEntity> listAll() {
         return sysUserService.queryAll();
+    }
+
+    /**
+     * 查询所有用户
+     */
+    @Operation(summary = "查询所有用户名")
+    @GetMapping("/listAllUsernames")
+    public List<String> listAllUsernames() {
+        return sysUserService.queryAllUsernames();
     }
 
 
@@ -94,11 +103,10 @@ public class SysUserController {
         return CommonResult.success(userInfo, "userInfo");
     }
 
-
-    @Operation(summary = "创建用户")
-    @PostMapping("/create")
-    public Boolean createUser (@Validated({AddGroup.class}) @RequestBody SysUserDTO sysUserDto)  {
-        return sysUserService.createUser(sysUserDto);
+    @Operation(summary = "注册")
+    @PostMapping("/registerUser")
+    public CommonResult<?> registerUser (@Validated({AddGroup.class}) @RequestBody SysUserDTO sysUserDto)  {
+        return sysUserService.register(sysUserDto);
     }
 
     @Operation(summary = "修改用户详情")
