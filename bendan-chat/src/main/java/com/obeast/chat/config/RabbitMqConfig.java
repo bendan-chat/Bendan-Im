@@ -1,5 +1,6 @@
 package com.obeast.chat.config;
 
+import com.obeast.chat.utils.RabbitMQUtils;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
@@ -23,12 +24,12 @@ public class RabbitMqConfig {
 
     @Bean
     public Queue queue(){
-        return new Queue("ws_queue_" + port);
+        return new Queue(RabbitMQUtils.QUEUE_NAME + port);
     }
 
     @Bean
     public FanoutExchange fanoutExchange(){
-        return new FanoutExchange("ws_exchange");
+        return new FanoutExchange(RabbitMQUtils.EXCHANGE_NAME);
     }
 
     @Bean

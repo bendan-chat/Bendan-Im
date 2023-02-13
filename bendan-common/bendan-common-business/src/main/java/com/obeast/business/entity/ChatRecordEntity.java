@@ -65,4 +65,10 @@ public class ChatRecordEntity implements Serializable {
     @TableField(value = "send_time")
     private Date sendTime;
 
+
+    /**
+     * 状态
+     */
+    @TableField(value = "status")
+    private Integer status;
 }

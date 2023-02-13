@@ -26,13 +26,15 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
- * @author lengleng
- * @date 2019/2/1 Spring 工具类
+ * @author wxl
+ * Date 2023/2/11 15:26
+ * @version 1.0
+ * Description: Spring 工具类
  */
 @Slf4j
 @Service
 @Lazy(false)
-public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
+public class SpringBeanUtil implements ApplicationContextAware, DisposableBean {
 
 	private static ApplicationContext applicationContext = null;
 
@@ -48,7 +50,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
-		SpringContextHolder.applicationContext = applicationContext;
+		SpringBeanUtil.applicationContext = applicationContext;
 	}
 
 	/**
@@ -93,7 +95,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	@Override
 	@SneakyThrows
 	public void destroy() {
-		SpringContextHolder.clearHolder();
+		SpringBeanUtil.clearHolder();
 	}
 
 }

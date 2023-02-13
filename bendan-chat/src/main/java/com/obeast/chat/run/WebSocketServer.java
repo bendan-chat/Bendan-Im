@@ -73,7 +73,7 @@ public class WebSocketServer implements CommandLineRunner {
                                 //关闭连接
                                 .addLast(new ShutDownMsgHandler(chatChannelGroup))
                                 // 新建连接处理器
-                                .addLast(new ConnectMsgHandler(chatChannelGroup))
+                                .addLast(new ConnectMsgHandler(chatChannelGroup, rabbitTemplate, chatRecordService))
                                 //心跳
                                 .addLast(new HeardMsgHandler())
                                 // 新朋友

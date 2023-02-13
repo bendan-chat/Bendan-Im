@@ -68,7 +68,7 @@ public class ChatFriendsController {
 
     @Operation(summary = "删除好友和聊天记录")
     @DeleteMapping("/delFriendAndChatRecord")
-    public Boolean delFriendAndChatRecord(@RequestParam("curUserId") Long curUserId, @RequestParam("addUserId") Long addUserId) {
+    public Boolean delFriendAndChatRecord(Long curUserId, Long addUserId) {
         return addFriendRelService.delFriendAndChatRecord(curUserId, addUserId);
     }
 }

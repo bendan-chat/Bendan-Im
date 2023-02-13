@@ -31,7 +31,7 @@ public class ChatChannelGroup {
      * @param channel channel
      */
     public void addChannel(Long userId, Channel channel) {
-        log.debug("{}用户建立通道", userId);
+        log.debug("用户{}建立新的连接------>{}" , userId, channel);
         connects.put(userId, channel);
     }
 

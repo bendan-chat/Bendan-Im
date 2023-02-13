@@ -66,7 +66,6 @@ public class SeriChannelInHandler extends SimpleChannelInboundHandler<TextWebSoc
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        log.debug("------------------------------>客户端开始关闭连接");
         chatChannelGroup.removeChannel(userId);
         ctx.close();
         log.debug("------------------------------>客户端{}  关闭连接成功", userId);

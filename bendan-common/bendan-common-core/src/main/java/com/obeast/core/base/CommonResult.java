@@ -40,6 +40,18 @@ public class CommonResult<T> {
     }
 
     /**
+     * Description: 根据 boolean 自动判断是否成功
+     * @author wxl
+     * Date: 2023/2/11 21:46
+     * @param isSuccess  isSuccess
+     * @return com.obeast.core.base.CommonResult<T>
+     */
+    public static <T> CommonResult<T> auto(boolean isSuccess) {
+        return isSuccess ? CommonResult.success() : CommonResult.error();
+
+    }
+
+    /**
      * Description: 无返回值
      * @author wxl
      * Date 2022/7/15 17:56

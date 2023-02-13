@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 
 import com.obeast.chat.business.domain.ChatChannelGroup;
 import com.obeast.business.entity.ChatRecordEntity;
+import com.obeast.chat.utils.RabbitMQUtils;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class WsQueueListener {
 
     private final ChatChannelGroup channelGroup;
 
+
+    private final UserMsgQueue userMsgQueue;
+
 //    @RabbitHandler
 //    public void wsShutDownMsg(ShutDownMsg shutDownMsg){
 //
@@ -53,16 +57,16 @@ public class WsQueueListener {
         //根据toId查询通道
         Long toId = chatMsg.getToId();
         io.netty.channel.Channel channel = channelGroup.getChannel(toId);
-
+        String jsonMsg = JSONUtil.toJsonStr(chatMsg);
         // 对方在线
         if (channel != null) {
             log.debug("转发的数据为："+ chatMsg);
-            TextWebSocketFrame resp = new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg));
+            TextWebSocketFrame resp = new TextWebSocketFrame(jsonMsg);
             channel.writeAndFlush(resp);
-            RabbitMQUtils.askMessage(channelMq, tag, log);
         }else {
-            log.error("消息转发出现异常请检测");
+            log.error("rabbitmq 转发 失败 channel 为空");
         }
+        RabbitMQUtils.askMessage(channelMq, tag, log);
 
     }
 }

@@ -1,16 +1,18 @@
 package com.obeast.chat.business.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.obeast.business.entity.ChatRecordEntity;
-import com.obeast.business.entity.ChatRecordEntity;
 import com.obeast.chat.business.service.ChatRecordService;
 import com.obeast.chat.business.dao.ChatRecordDao;
+import com.obeast.core.base.CommonResult;
 import com.obeast.core.domain.PageObjects;
 import com.obeast.core.domain.PageParams;
 import com.obeast.core.utils.PageQueryUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -28,6 +30,37 @@ import java.util.stream.Stream;
 public class ChatRecordServiceImpl extends ServiceImpl<ChatRecordDao, ChatRecordEntity> implements ChatRecordService {
 
 
+    @Override
+    public CommonResult<?> clearUnreadChatMsg(Long curId, Long fromId) {
+        Assert.notNull(curId, "curId cannot be null");
+        Assert.notNull(fromId, "fromId cannot be null");
+        LambdaUpdateWrapper<ChatRecordEntity> wrapper = Wrappers.lambdaUpdate();
+        wrapper.eq(ChatRecordEntity::getToId, curId)
+                .eq(ChatRecordEntity::getFromId, fromId)
+                .eq(ChatRecordEntity::getStatus, 0);
+        wrapper.set(ChatRecordEntity::getStatus, 1);
+        return CommonResult.success(this.update(wrapper));
+    }
+
+    @Override
+    public List<ChatRecordEntity> getUnreadChatList(Long curId, Long fromId) {
+        Assert.notNull(curId, "curId cannot be null");
+        Assert.notNull(fromId, "fromId cannot be null");
+        LambdaQueryWrapper<ChatRecordEntity> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(ChatRecordEntity::getToId, curId)
+                .eq(ChatRecordEntity::getFromId, fromId)
+                .eq(ChatRecordEntity::getStatus, 0);
+        return this.list(wrapper);
+    }
+
+    @Override
+    public List<ChatRecordEntity> getUnreadChatList(Long curId) {
+        Assert.notNull(curId, "curId cannot be null");
+        LambdaQueryWrapper<ChatRecordEntity> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(ChatRecordEntity::getToId, curId)
+                .eq(ChatRecordEntity::getStatus, 0);
+        return this.list(wrapper);
+    }
 
     @Override
     public PageObjects<ChatRecordEntity> queryPage(PageParams pageParams, Long userId, Long toId) {
@@ -71,5 +104,12 @@ public class ChatRecordServiceImpl extends ServiceImpl<ChatRecordDao, ChatRecord
         Stream<Long> fromStream = list.stream().map(ChatRecordEntity::getFromId);
         Stream<Long> toStream = list.stream().map(ChatRecordEntity::getToId);
         return Stream.concat(fromStream, toStream).filter(item -> !item.equals(userId)).distinct().toList();
+    }
+
+
+    @Async
+    @Override
+    public Boolean  addMsg(ChatRecordEntity chatRecordEntity) {
+        return this.save(chatRecordEntity);
     }
 }

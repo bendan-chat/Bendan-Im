@@ -1,19 +1,16 @@
 package com.obeast.chat.handler;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.obeast.chat.business.domain.ChatChannelGroup;
 import com.obeast.chat.business.domain.msg.ChatStrMsg;
 import com.obeast.business.entity.ChatRecordEntity;
 import com.obeast.chat.business.service.ChatRecordService;
-import com.obeast.core.exception.BendanException;
+import com.obeast.chat.utils.ChatRecordUtil;
+import com.obeast.chat.utils.RabbitMQUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-
-import java.util.Date;
 
 /**
  * @author wxl
@@ -40,52 +37,21 @@ public class ChatMsgHandler extends SimpleChannelInboundHandler<ChatStrMsg> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ChatStrMsg msg) throws Exception {
 
-        Long fromId = msg.getFromId();
-        Long toId = msg.getToId();
-        String sendMsg = this.handlerMsg(msg);
-        //      同步消息入DB库 方便展示
-        ChatRecordEntity chatRecordEntity = new ChatRecordEntity();
-        chatRecordEntity.setFromId(fromId);
-        chatRecordEntity.setToId(toId);
-        chatRecordEntity.setSendContent(sendMsg);
-        chatRecordEntity.setSendType(msg.getSendType());
-        chatRecordEntity.setSendTime(new Date());
-        Long sendTimeLength = msg.getLength();
-        if (ObjectUtil.isNotNull(sendTimeLength)) {
-            chatRecordEntity.setLength(sendTimeLength);
-        }
-        chatRecordService.save(chatRecordEntity);
+        ChatRecordEntity chatRecordEntity = ChatRecordUtil.chatStrMsgToEntity(msg);
         //查询toId是否存在
-        Channel channel = chatChannelGroup.getChannel(toId);
-        log.debug("-------------------------------->消息已经入DB库");
-
-        if (channel.isOpen()) {
-            //对方在线，才做rabbitMq转发
-            log.debug("对方在线通过RabbitMq发送");
-            //通过rabbitmq转发出去
-            rabbitTemplate.convertAndSend("ws_exchange", "", chatRecordEntity);
-        } else {
-            log.debug("对方不在线----------------->do nothing");
-
+        Channel channel = chatChannelGroup.getChannel(msg.getToId());
+        if (channel != null) {
+            log.debug("对方在线 通过rabbitMq ----->{}" , chatRecordEntity);
+            ChatRecordUtil.setOnline(chatRecordEntity);
+            // 持久化
+            chatRecordService.addMsg(chatRecordEntity);
+            rabbitTemplate.convertAndSend(RabbitMQUtils.EXCHANGE_NAME, "", chatRecordEntity);
+        }else {
+            log.debug("对方不在线 ----->{}" , chatRecordEntity);
+            ChatRecordUtil.setNotOnline(chatRecordEntity);
+            // 持久化
+            chatRecordService.addMsg(chatRecordEntity);
         }
-
     }
 
-    /**
-     * Description: 处理语音消息和文本消息
-     *
-     * @param msg msg
-     * @return byte[]
-     * @author wxl
-     * Date: 2023/1/3 15:39
-     */
-    private String handlerMsg(ChatStrMsg msg) {
-        String sendContent = msg.getSendContent();
-        if (StrUtil.isNotBlank(sendContent)) {
-            log.debug("客户端发送文本的聊天消息:  " + sendContent);
-            return sendContent;
-        }
-        log.warn("语音消息和文字消息不能同时发送或者同时为空");
-        throw new BendanException("发送消息为空");
-    }
 }

@@ -1,4 +1,4 @@
-package com.obeast.chat.listener;
+package com.obeast.chat.utils;
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 
@@ -12,6 +12,17 @@ import java.io.IOException;
  * Description: mq工具类
  */
 public class RabbitMQUtils {
+
+    /**
+     * 队列名字
+     * */
+    public static final String QUEUE_NAME = "ws_queue_";
+
+    /**
+     * 交换机名
+     * */
+    public static final String EXCHANGE_NAME = "ws_exchange";
+
     public static void askMessage(Channel channel, long tag, final Logger logger) {
         askMessage(channel, tag, logger, false);
     }

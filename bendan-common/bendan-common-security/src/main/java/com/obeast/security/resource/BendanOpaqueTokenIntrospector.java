@@ -34,7 +34,6 @@ public class BendanOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 		if (Objects.isNull(oldAuthorization)) {
 			throw new InvalidBearerTokenException(token);
 		}
-
 		UserDetails userDetails = null;
 		try {
 			Object principal = Objects.requireNonNull(oldAuthorization).getAttributes().get(Principal.class.getName());
