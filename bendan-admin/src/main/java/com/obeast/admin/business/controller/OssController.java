@@ -6,6 +6,7 @@ import cn.hutool.json.JSONObject;
 import com.obeast.admin.business.dao.OssEntityDao;
 import com.obeast.admin.business.service.OssMinioService;
 import com.obeast.business.entity.OssEntity;
+import com.obeast.business.vo.TentcentFileObject;
 import com.obeast.common.three.domain.FlyweightRes;
 import com.obeast.common.three.enumration.FileType;
 import com.obeast.common.three.enumration.FileUploadConstant;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -45,6 +47,12 @@ public class OssController {
     private final FlyweightRes res;
 
     private final OssEntityDao ossEntityDao;
+
+    @Operation(summary = "获取腾讯上传文件")
+    @GetMapping("/getUserFiles")
+    public List<TentcentFileObject> getUserFiles (@RequestParam("userId") Long userId) {
+         return tencentOssTemplate.getUserFiles(userId);
+    }
 
 
     /**

@@ -193,11 +193,11 @@
             </dependency>
 
             <!-- stt 百度 ai       -->
-            <dependency>
-                <groupId>com.baidu.aip</groupId>
-                <artifactId>java-sdk</artifactId>
-                <version>${com.baidu.aip.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.baidu.aip</groupId>-->
+<!--                <artifactId>java-sdk</artifactId>-->
+<!--                <version>${com.baidu.aip.version}</version>-->
+<!--            </dependency>-->
 
             <!--腾讯cos-->
             <dependency>

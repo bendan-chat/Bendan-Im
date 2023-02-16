@@ -39,7 +39,7 @@ public class TencentAsrTemplate {
            req.setSourceType(0L);
            req.setUrl(url);
            req.setVoiceFormat(format);
-           req.setUsrAudioKey("dwadw");
+           req.setUsrAudioKey("bendan");
            // 返回的resp是一个SentenceRecognitionResponse的实例，与请求对象对应
            SentenceRecognitionResponse resp = asrClient.SentenceRecognition(req);
            // 输出json格式的字符串回包
