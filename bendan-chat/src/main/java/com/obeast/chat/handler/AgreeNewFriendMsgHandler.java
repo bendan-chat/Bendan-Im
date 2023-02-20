@@ -18,7 +18,7 @@ import java.util.Date;
  * @author wxl
  * Date 2022/12/27 12:41
  * @version 1.0
- * Description: 心跳消息处理类
+ * Description: 同意好友申请类
  */
 @RequiredArgsConstructor
 @Slf4j

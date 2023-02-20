@@ -18,6 +18,7 @@ import com.obeast.business.entity.SysMenuEntity;
 import com.obeast.business.entity.SysRoleEntity;
 import com.obeast.business.entity.SysUserEntity;
 import com.obeast.business.vo.OAuth2PasswordVo;
+import com.obeast.business.vo.PasswordUpdateVo;
 import com.obeast.business.vo.UserInfoVo;
 import com.obeast.core.domain.PageParams;
 import com.obeast.business.vo.UserInfo;
@@ -172,7 +173,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
         wrapper.eq(SysUserEntity::getEmail, email);
         SysUserEntity sysUserEntity = this.getOne(wrapper);
         if (sysUserEntity == null) {
-            return null;
+            throw new BendanException("邮箱不存在！！！");
         } else {
             return sysUserEntity.getId();
         }
@@ -186,9 +187,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
     }
 
     @Override
-    public Boolean updateUserPassword(Long userId, String password) {
-        Assert.notNull(userId, "userId cannot be null");
+    public Boolean updateUserPassword(PasswordUpdateVo passwordUpdateVo) {
+        Long userId = passwordUpdateVo.getUserId();
+        String password = passwordUpdateVo.getPassword();
         Assert.notNull(password, "password cannot be null");
+        if (userId == null){
+            String email = passwordUpdateVo.getEmail();
+            userId = getIdByEmail(email);
+        }
         String encodePassword = this.encryptionPassword(password);
         LambdaUpdateWrapper<SysUserEntity> wrapper = Wrappers.lambdaUpdate();
         wrapper.eq(SysUserEntity::getId, userId);
@@ -196,6 +202,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity>
         this.delUserCache(userId);
         return this.update(wrapper);
     }
+
 
     @Override
     public UserInfoVo getUserinfo(String username) {

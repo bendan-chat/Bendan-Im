@@ -10,6 +10,18 @@ import lombok.Data;
  */
 @Data
 public class PasswordUpdateVo {
+    /**
+     * 用户Id
+     * */
     private Long userId;
+
+    /**
+     * 用户邮箱
+     * */
+    private String email;
+
+    /**
+     * 修该的密码
+     * */
     private String password;
 }

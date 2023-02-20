@@ -51,4 +51,10 @@ public class FriendVo {
     @Range(min = -1, max = 1, groups = {AddGroup.class, UpdateGroup.class})
     @Schema(description = "性别   (-1 未知 0 女性  1 男性)")
     private Integer gender;
+
+    /**
+     * 个人描述
+     */
+    @Schema(description = "个人描述")
+    private String selfDescription;
 }

@@ -119,7 +119,7 @@ public class SysUserController {
     @PostMapping("/updatePassword")
     public Boolean updateUserPassword (
             @RequestBody PasswordUpdateVo passwordUpdateVo) {
-        return sysUserService.updateUserPassword(passwordUpdateVo.getUserId(), passwordUpdateVo.getPassword());
+        return sysUserService.updateUserPassword(passwordUpdateVo);
     }
 
     @Operation(summary = "删除用户")
