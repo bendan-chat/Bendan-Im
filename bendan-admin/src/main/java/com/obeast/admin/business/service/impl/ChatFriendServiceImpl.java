@@ -38,26 +38,34 @@ public class ChatFriendServiceImpl implements ChatFriendService {
 
 
     @Override
-    public List<ChatUserVo> getFriendList(String username) {
+    public List<FriendVo> getFriendList(String username) {
         Long userId = sysUserService.getIdByUsername(username);
         List<AddFriendRelEntity> friendRelsVos = addFriendRelDao.getFriends(userId);
         Stream<Long> userAs = friendRelsVos.stream().map(AddFriendRelEntity::getCurUserId);
         Stream<Long> userBs = friendRelsVos.stream().map(AddFriendRelEntity::getAddUserId);
         List<Long> friendIds = Stream.concat(userBs, userAs).toList();
-        return getChatUserByChatList(friendIds, userId, Boolean.FALSE);
+        return getFriendListByFriendIds(friendIds, userId);
     }
 
     @Override
-    public List<ChatUserVo> getChatUserByChatList(List<Long> friendIds, Long userId, Boolean isChatList) {
+    public List<ChatUserVo> getChatListByFriendIds(List<Long> friendIds, Long userId) {
         return friendIds.stream().filter(item -> !item.equals(userId)).map(item -> {
             ChatUserVo chatUserVo = new ChatUserVo();
             SysUserEntity sysUser = sysUserService.getById(item);
             BeanUtils.copyProperties(sysUser, chatUserVo);
-            if (isChatList) {
-                String lastMsg = getLastMsg(userId, item);
-                chatUserVo.setLastMsg(lastMsg);
-            }
+            String lastMsg = getLastMsg(userId, item);
+            chatUserVo.setLastMsg(lastMsg);
             return chatUserVo;
+        }).toList();
+    }
+
+    @Override
+    public List<FriendVo> getFriendListByFriendIds(List<Long> friendIds, Long userId) {
+        return friendIds.stream().filter(item -> !item.equals(userId)).map(item -> {
+            FriendVo friendVo = new FriendVo();
+            SysUserEntity sysUser = sysUserService.getById(item);
+            BeanUtils.copyProperties(sysUser, friendVo);
+            return friendVo;
         }).toList();
     }
 
@@ -74,7 +82,7 @@ public class ChatFriendServiceImpl implements ChatFriendService {
     @Override
     public List<ChatUserVo> getChatList(Long userId) {
         List<Long> friendIds = chatListService.chatList(userId);
-        return getChatUserByChatList(friendIds, userId, Boolean.TRUE);
+        return getChatListByFriendIds(friendIds, userId);
     }
 
     /**

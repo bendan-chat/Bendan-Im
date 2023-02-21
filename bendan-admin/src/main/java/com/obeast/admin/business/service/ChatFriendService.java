@@ -20,7 +20,7 @@ public interface ChatFriendService {
      * @param username username
      * @return java.util.List<com.obeast.business.entity.SysUserEntity>
      */
-    List<ChatUserVo> getFriendList(String username);
+    List<FriendVo> getFriendList(String username);
 
 
     /**
@@ -31,7 +31,7 @@ public interface ChatFriendService {
      * @param userId  userId
      * @return java.util.List<com.obeast.business.vo.ChatUserVo>
      */
-    List<ChatUserVo> getChatUserByChatList(List<Long> friendIds, Long userId, Boolean isChatList);
+    List<ChatUserVo> getChatListByFriendIds(List<Long> friendIds, Long userId);
 
     /**
      * Description: 查询聊天列表详情
@@ -41,6 +41,16 @@ public interface ChatFriendService {
      * @return java.util.List<com.obeast.business.vo.ChatUserVo>
      */
     List<ChatUserVo> getChatList(Long userId);
+
+    /**
+     * Description: 获取好友列表
+     * @author wxl
+     * Date: 2023/2/20 18:08
+     * @param friendIds friendIds
+     * @param userId userId
+     * @return java.util.List<com.obeast.business.vo.FriendVo>
+     */
+    List<FriendVo> getFriendListByFriendIds(List<Long> friendIds, Long userId);
 
     /**
      * Description: 查询好友详情

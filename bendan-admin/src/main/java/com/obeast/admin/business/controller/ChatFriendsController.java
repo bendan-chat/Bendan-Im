@@ -31,7 +31,7 @@ public class ChatFriendsController {
 
     @Operation(summary = "查询好友列表")
     @GetMapping("/getFriends")
-    public List<ChatUserVo> getFriends(@RequestParam("username") String username) {
+    public List<FriendVo> getFriends(@RequestParam("username") String username) {
         return chatFriendService.getFriendList(username);
     }
 
