@@ -61,3 +61,19 @@ Bendan-Im
 ├── bendan-auth-- 授权服务提供[9001]
 ```
 
+## 系统技术栈
+
+![image-20230227105752454](https://cdn.jsdelivr.net/gh/obeast-dragon/cloud-bed/pictures/image-20230227105752454.png)
+
+## 系统架构图
+
+### 系统架构总图
+
+![image-20230227105512927](https://cdn.jsdelivr.net/gh/obeast-dragon/cloud-bed/pictures/image-20230227105512927.png)
+
+
+
+### 聊天架构图
+
+![image-20230227105626212](https://cdn.jsdelivr.net/gh/obeast-dragon/cloud-bed/pictures/image-20230227105626212.png)
+

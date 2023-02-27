@@ -22,12 +22,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.web.authentication.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
@@ -74,6 +70,42 @@ public class AuthorizationServerConfig {
         http.authenticationProvider(daoAuthenticationProvider);
         return securityFilterChain;
     }
+
+//    @Bean
+//    public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
+//        return context -> {
+//            JwsHeader.Builder headers = context.getHeaders();
+//            JwtClaimsSet.Builder claims = context.getClaims();
+//            if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)) {
+//                // Customize headers/claims for access_token
+//                headers.header("customerHeader", "这是一个自定义header");
+//                claims.claim("customerClaim", "这是一个自定义Claim");
+//                Object principal = context.getPrincipal().getPrincipal();
+//                String username = String.valueOf(principal);
+//
+//            } else if (context.getTokenType().getValue().equals(OidcParameterNames.ID_TOKEN)) {
+//                // Customize headers/claims for id_token
+//
+//            }
+//        };
+//    }
+//
+//
+//    @Bean
+//    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+//        return new NimbusJwtEncoder(jwkSource);
+//    }
+//
+//    @Bean
+//    public OAuth2TokenGenerator<?> tokenGenerator(JwtEncoder jwtEncoder, OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer) {
+//        JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
+//        jwtGenerator.setJwtCustomizer(jwtCustomizer);
+//        OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
+//        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
+//        return new DelegatingOAuth2TokenGenerator(
+//                jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
+//    }
+//
 
     /**
      * Description: 创建自定义Converter
@@ -142,14 +174,12 @@ public class AuthorizationServerConfig {
     }
 
 
-
     /**
      * Description: 创建自定义CustomizeAuthenticationSuccessHandler
      * @author wxl
      * Date: 2022/10/31 9:42
-     * @return com.obeast.auth.support.handler.result.success.CustomizeAuthenticationSuccessHandler
      */
-    private CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler(){
+    private CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler() {
         return new CustomizeAuthenticationSuccessHandler();
     }
 
@@ -158,9 +188,8 @@ public class AuthorizationServerConfig {
      * Description: 创建自定义CustomizeAuthenticationSuccessHandler
      * @author wxl
      * Date: 2022/10/31 9:42
-     * @return com.obeast.auth.support.handler.result.success.CustomizeAuthenticationFailureHandler
      */
-    private CustomizeAuthenticationFailureHandler customizeAuthenticationFailureHandler(){
+    private CustomizeAuthenticationFailureHandler customizeAuthenticationFailureHandler() {
         return new CustomizeAuthenticationFailureHandler();
     }
 
